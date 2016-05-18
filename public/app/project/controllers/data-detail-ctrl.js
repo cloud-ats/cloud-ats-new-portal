@@ -39,7 +39,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       }
 
       $scope.save = function() {
-        console.log($scope.dataSource);
         DataService.update($scope.data.name, $scope.dataSource, $scope.data._id, function (data, status) {
           switch (status) {
             case 304: 
@@ -161,6 +160,43 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           }
         });
         return params;
+      }
+
+      $scope.rename = function (ev) {
+        $mdDialog.show({
+            
+          templateUrl: 'app/project/views/keyword/data-driven-in-case-form-dialog.tpl.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:false,
+          scope: $scope,
+          preserveScope: true,
+          controller: function() {
+
+            $scope.originDataName = $scope.data.name;
+            $scope.cancel = function() {
+              $scope.data.name = $scope.originDataName;
+              $mdDialog.cancel();
+            };
+
+            $scope.submit = function() {
+              var dataInfo = {
+                name: $scope.data.name,
+                _id: $scope.dataId
+              };
+              DataService.rename(dataInfo, function (data, status) {
+                if (status == 200) {
+
+                  $scope.breadcrumbs[2].name = dataInfo.name;
+                  $mdToast.show($mdToast.simple().position('top right').textContent('The data driven has been updated!'));
+                } else if (status == 204) {
+                  $mdToast.show($mdToast.simple().position('top right').textContent('Nothing to update.'));
+                }
+                $mdDialog.cancel();
+              });
+            };
+          }
+        })
       }
 
       var initData = function() {

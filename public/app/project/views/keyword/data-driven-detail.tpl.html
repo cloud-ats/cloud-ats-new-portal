@@ -61,9 +61,9 @@
         </div>
       </md-button>
       <md-button class="md-accent" ng-click="modifyColumn($event)" ng-disabled="sharedData.dataQueryText">
-        <md-tooltip>Select/Un-select Columns</md-tooltip>
+        <md-tooltip>UnSelect Columns</md-tooltip>
         <div layout="row" layout-align="start center">
-          <md-icon md-font-icon="icon-contrast" aria-hidden="true"></md-icon>
+          <md-icon md-font-icon="icon-minus" aria-hidden="true"></md-icon>
           <span class="pl-8" flex>Column</span>          
         </div>
       </md-button>
@@ -80,7 +80,7 @@
           <md-menu-content width="3">
             <md-menu-item class="md-indent" ng-if="dataId">
               <md-icon md-font-icon="icon-pencil"></md-icon>
-              <md-button>Re-Name</md-button>
+              <md-button ng-click="rename($event)">Re-Name</md-button>
             </md-menu-item>
             <md-menu-item class="md-indent">
               <md-icon md-font-icon="icon-upload"></md-icon>

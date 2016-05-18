@@ -306,7 +306,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       }
     }
 
-
     $scope.$watch('sharedData.dataQueryText', function(newData, oldData) {
       if (newData !== oldData) {
         
@@ -396,7 +395,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         //End detect change
       }
     }, true);
-
+  
     initData();
 
   }]);

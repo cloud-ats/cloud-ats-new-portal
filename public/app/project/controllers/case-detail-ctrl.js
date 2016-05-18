@@ -269,6 +269,44 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       })
     }
 
+    $scope.setting = function (ev) {
+
+      $mdDialog.show({
+          
+        templateUrl: 'app/project/views/keyword/case-form-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:false,
+        scope: $scope,
+        preserveScope: true,
+        controller: function() {
+
+          $scope.originCaseName = $scope.caze.name;
+          $scope.cancel = function() {
+            $scope.caze.name = $scope.originCaseName;
+            $mdDialog.cancel();
+          };
+
+          $scope.submit = function() {
+            var caze = {
+              name: $scope.caze.name,
+              _id: $scope.caze._id
+            };
+            CaseService.rename($scope.projectId, caze, function (data, status) {
+              if (status == 200) {
+
+                $scope.breadcrumbs[2].name = caze.name;
+                $mdToast.show($mdToast.simple().position('top right').textContent('The case has been updated!'));
+              } else if (status == 204) {
+                $mdToast.show($mdToast.simple().position('top right').textContent('Nothing to update.'));
+              }
+              $mdDialog.cancel();
+            });
+          };
+        }
+      })
+    }
+
     var buildParamList = function(caze) {
       var params = [];
       _.forEach(caze.steps, function(step) {

@@ -1,0 +1,29 @@
+<md-dialog aria-label="Update Case"  ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools md-primary-bg">
+        <span class="md-title text-nowrap">Rename Case</span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <form name="createForm">
+          <md-input-container class="md-block">
+          <label>Case Name</label>
+          <input type="text" name="caseName" required ng-model="caze.name" md-autofocus>
+          <div ng-messages="createForm.caseName.$error" role="alert" aria-live="assertive" >
+              <div ng-message="required">Case name is required</div>
+          </div>
+          </md-input-container>
+        </form>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" >
+      <span flex></span>
+      <md-button class="md-raised md-primary" ng-click="submit()" ng-disabled="createForm.$invalid">
+        <span class="white-fg">Ok</span>
+      </md-button>
+      <md-button class="md-raised mr-24" ng-click="cancel()">
+        Cancel
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -120,7 +120,24 @@ define(['project/module'], function (module) {
         }).error(function(data, status) {
           callback(data, status)
         });        
-      }
+      },
+      rename: function(projectId, caze, callback) {
+        var request = {
+          method: 'PUT',
+          url: appConfig.RestEntry + '/api/v1/project/keyword/' + projectId + '/case/rename' ,
+          headers: {
+            'X-AUTH-TOKEN': $cookies.get('authToken'),
+            'X-SPACE': $cookies.get('space')
+          },
+          data: caze
+        };     
+
+        $http(request).success(function(data, status) {
+          callback(data, status);
+        }).error(function(data, status) {
+          callback(data, status);
+        });   
+      },
     }
   }]);
 });
