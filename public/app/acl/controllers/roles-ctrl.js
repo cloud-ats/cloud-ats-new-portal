@@ -99,6 +99,7 @@ define(['acl/module', 'lodash'], function (module, _) {
 	          });
 	          if ($scope.roles.length > 0) {
 	            $scope.currentRole = $scope.roles[0];
+	            $scope.originRoles = angular.copy($scope.roles);
 	          }
 	        })
         });
@@ -169,15 +170,14 @@ define(['acl/module', 'lodash'], function (module, _) {
 					}
 				});
 			};
-			$scope.editRole = function(role, ev){
-				$scope.currentRole = role ;
-				$scope.originRole = angular.copy($scope.currentRole);
+			$scope.editRole = function(ev){
 				$scope.edit = true;
 				ev.stopPropagation();
 			};
 			$scope.clickCancel = function(){
+				$scope.roles = $scope.originRoles ;
+				$scope.currentRole = $scope.roles[0];
 				$scope.edit = false;
-				$scope.currentRole = $scope.originRole;
 			};
 
 	}]);

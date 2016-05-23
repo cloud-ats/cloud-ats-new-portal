@@ -1,114 +1,119 @@
 <div layout="row">
 	<div layout="row" flex="20" class="ms-widget md-whiteframe">
-        <div class="ms-widget-front white-bg" layout="column" flex>
-          <md-content perfect-scrollbar class="pt-8">
-            <div layout="row" layout-align="start center" class="p-16 filter" layout="row" flex="100">
-            	<span style="font-size: 22px;" flex="90">List Space</span>
-            	<a class="md-icon-button" flex="10" ng-click="clickNewSpace($event)">
-              		<md-tooltip>New Space</md-tooltip>
-              		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
-                </a>
-            </div>
-          	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="i in spaces" ng-click="getSpaceDetail($event, i._id)"  ng-class="{active: currentSpace == i.name}">
-              	<span flex>{{i.name}}</span>
-              	<a class="md-icon-button" ng-click="clickEditSpace($event, i)" >
-              		<md-tooltip>Edit Space</md-tooltip>
-              		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
-                </a>
-              	<a class="md-icon-button" ng-click="deleteSpace($event, i._id)">
-              		<md-tooltip>Delete Space</md-tooltip>
-              		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
-                </a>
-          	</div>  
-          </md-content>
+    <div class="ms-widget-front white-bg" layout="column" flex>
+      <md-content perfect-scrollbar class="pt-8">
+        <div layout="row" layout-align="start center" class="p-16 filter" layout="row" flex="100">
+        	<span style="font-size: 22px;" flex="90">List Space</span>
+        	<a class="md-icon-button" flex="10" ng-click="clickNewSpace()">
+          		<md-tooltip>New Space</md-tooltip>
+          		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
+            </a>
         </div>
+      	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="space in spaces track by $index" ng-click="selectSpace(space)"  ng-class="{active: currentSpace.name == space.name}">
+          	<span flex>{{space.name}}</span>
+          	<a class="md-icon-button" ng-click="editSpace($event)" ng-show=" currentSpace.name == space.name">
+          		<md-tooltip>Edit Space</md-tooltip>
+          		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
+            </a>
+          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="currentSpace.name == space.name">
+          		<md-tooltip>Delete Space</md-tooltip>
+          		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
+            </a>
+      	</div>  
+      </md-content>
     </div>
+  </div>
 	<div flex="80" layout="column" class="simple-table-container md-whiteframe-4dp">
-		<div class="table-title">{{space.name}}</div>
-		<div class="ms-responsive-table-wrapper">
-			<table class="simple">
-				<thead>
-					<tr>
-						<th>Creator</th>
-						<th>Created Date</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>tudh2@fsoft.com.vn</td>
-            			<td>{{parse(space.created_date)}}</td>
-            			<td>{{space.desc}}</td>
-				</tbody>
-			</table>
-		</div>
+    <form name="spaceForm">
+      <div layout="row" ng-show="!edit" flex="100">
+        <h3 flex="30">Space Name: {{currentSpace.name}}</h3>
+        <h3 flex="40">Description: {{currentSpace.desc}}</h3>
+      </div>
+      <div flex="100" layout="row" ng-show="edit">
+        <md-input-container>
+          <label>Space Name</label>
+          <input ng-model="currentSpace.name" name="spaceName" required>
+          <div class="errors" ng-messages="spaceForm.roleName.$error" >
+            <div ng-message="required">Space Name Required</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Space Description</label>
+          <input ng-model="currentSpace.desc" name="spaceDesc">
+        </md-input-container>
+        <span flex></span>
+        <md-button class="animate-slide-down" ng-click="clickSave()" ng-disabled="spaceForm.$invalid">
+          <div layout="row" layout-align="start center" class="md-primary-fg">
+            <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg" ></md-icon>
+            <span class="pl-8" flex>Save</span>
+          </div>
+        </md-button>
 
-		<div class="table-title">Grant Permission</div>
-		<div class="ms-responsive-table-wrapper">
-			<table class="simple">
-				<thead>
-					<tr >
-						<th class="text-align-center" ></th>
-						<th class="text-align-center">View</th>
-						<th class="text-align-center">Manage Project</th>
-						<th class="text-align-center">Grant Permission</th>
-						<th class="text-align-center"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="grant in grants" >
-						<td >{{grant.user}}</td>
-            			<td class="text-align-center" >
-            				<md-icon md-font-icon="icon-check" aria-hidden="true" class="green-700-fg" ng-show="!edit && grant.view"></md-icon>
-            				<md-icon md-font-icon="icon-cancel" aria-hidden="true" class="red-700-fg" ng-show="!edit && !grant.view"></md-icon>
-            				<md-checkbox aria-label="Manage Project" class="margin-bottom-0" ng-show="edit" ng-model="grant.view">
-                            </md-checkbox>
-            			</td>
-            			<td class="text-align-center">
-            				<md-icon md-font-icon="icon-check" aria-hidden="true" class="green-700-fg" ng-show="!edit && grant.manage_project"></md-icon>
-            				<md-icon md-font-icon="icon-cancel" aria-hidden="true" class="red-700-fg" ng-show="!edit && !grant.manage_project"></md-icon>
-            				<md-checkbox aria-label="Manage Project" class="margin-bottom-0" ng-show="edit" ng-model="grant.manage_project">
-                            </md-checkbox>
-            			</td>
-            			<td class="text-align-center">
-            				<md-icon md-font-icon="icon-check" aria-hidden="true" class="green-700-fg" ng-show="!edit && grant.grant_permission"></md-icon>
-            				<md-icon md-font-icon="icon-cancel" aria-hidden="true" class="red-700-fg" ng-show="!edit && !grant.grant_permission"></md-icon>
-            				<md-checkbox aria-label="Grant Permission" class="margin-bottom-0" ng-show="edit" ng-model="grant.grant_permission">
-                            </md-checkbox>
-            			</td>
-            			<td class="text-align-center">
-							<a class="md-icon-button" ng-show="edit" ng-click="deleteUser($event, grant)">
-		                  		<md-tooltip>Remove User</md-tooltip>
-		                  		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
-		                    </a>
-            			</td>
-         			</tr>
-				</tbody>
-			</table>
-		</div>
+        <md-button class="animate-slide-down" ng-click="clickCancel()" ng-disabled="spaceForm.$invalid">
+          <div layout="row" layout-align="start center" class="grey-700-fg">
+            <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
+            <span class="pl-8" flex>Cancel</span>
+          </div>
+        </md-button>
+      </div>
+  		<!-- <div class="ms-responsive-table-wrapper">
+  			<table class="simple">
+  				<thead>
+  					<tr>
+  						<th>Creator</th>
+  						<th>Created Date</th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<tr>
+  						<td>tudh2@fsoft.com.vn</td>
+        			<td>{{parse(currentSpace.created_date)}}</td>
+  				</tbody>
+  			</table>
+  		</div> -->
 
-		<div layout="row" ng-show="edit" flex="100">
-			<md-autocomplete
-	            md-selected-item="selectedItem"
-	            md-search-text="searchText"
-	            md-items="item in listUser"
-	            md-item-text="item._id"
-	            md-min-length="0"
-	            placeholder="What is email of user" flex="30">
-	            <md-item-template>
-	              <span md-highlight-text="searchText" md-highlight-flags="^i">{{item._id}}</span>
-	            </md-item-template>
-	            <md-not-found>
-	              No states matching {{searchText}} were found.
-	            </md-not-found>
-	        </md-autocomplete>
-    		<md-button md-no-ink class="md-primary" ng-disabled="!selectedItem" ng-click="addUser(selectedItem.first_name, selectedItem.last_name)">Add User</md-button>
-		</div>
-		<div layout="row" flex="100" layout-align="end">
-			<md-button md-no-ink class="md-primary" ng-show="!edit" ng-click="toggle()">
-			Edit</md-button>
-			<md-button md-no-ink class="md-primary" ng-show="edit" ng-click="cancelGrant()">Cancel</md-button>
-    		<md-button md-no-ink class="md-primary" ng-show="edit" ng-click="clickSave(grants)">Save</md-button>
-    	</div>
+  		<div class="table-title">Add User on Space</div>
+  		<div class="ms-responsive-table-wrapper">
+  			<table class="simple">
+  				<thead>
+  					<tr >
+  						<th class="text-align-center" >
+                <div layout="row" flex="100" ng-show="edit">
+                  <md-autocomplete
+                    md-selected-item="selectedItem"
+                    md-search-text="searchText"
+                    md-items="item in listUserSearch"
+                    md-item-text="item._id"
+                    md-min-length="0"
+                    placeholder="What is email of user" flex="80">
+                    <md-item-template>
+                      <span md-highlight-text="searchText" md-highlight-flags="^i">{{item._id}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                      No states matching {{searchText}} were found.
+                    </md-not-found>
+                  </md-autocomplete>
+                  <md-button md-no-ink class="md-primary" ng-disabled="!selectedItem" ng-click="addUser(selectedItem)">Add User</md-button>
+                </div>      
+              </th>
+  						<th class="text-align-center">User</th>
+  						<th class="text-align-center"></th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  				  <tr ng-repeat="user in currentSpace.listUser track by $index">
+            <td></td>
+              <td class="text-align-center">{{user.first_name + user.last_name}}</td>
+              <td class="text-align-center">
+                <a class="md-icon-button" ng-click="removeUser(user)" ng-show="edit">
+                  <md-tooltip>Remove User</md-tooltip>
+                  <md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
+                </a>
+              </td>
+            </tr>
+  				</tbody>
+  			</table>
+  		</div>
+    </form>
 	</div>
 </div>

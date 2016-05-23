@@ -20,7 +20,7 @@
             <div class="p-16" layout-align="start center" layout="row" ng-show="role._id">
             	<span>{{role.name}}</span>
               <span flex></span>
-            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole.name == role.name" ng-click="editRole(role, $event)">
+            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole.name == role.name" ng-click="editRole($event)">
             		<md-tooltip>Edit Role</md-tooltip>
             		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
               </a>
@@ -117,16 +117,36 @@
 
       <!-- Start list user -->
       <div class="ms-responsive-table-wrapper" flex="100">
-        <div class="table-title">Add User</div>
+        <div class="table-title">List User of Role</div>
         <table class="simple">
           <thead>
             <tr>
+              <th>
+                <div layout="row" flex="100" ng-show="edit">
+                  <md-autocomplete
+                    md-selected-item="selectedItem"
+                    md-search-text="searchText"
+                    md-items="item in listUserSearch"
+                    md-item-text="item._id"
+                    md-min-length="0"
+                    placeholder="What is email of user" flex="80">
+                    <md-item-template>
+                      <span md-highlight-text="searchText" md-highlight-flags="^i">{{item._id}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                      No states matching {{searchText}} were found.
+                    </md-not-found>
+                  </md-autocomplete>
+                  <md-button md-no-ink class="md-primary" ng-disabled="!selectedItem" ng-click="addUser(selectedItem)">Add User</md-button>
+                </div>
+              </th>
               <th class="text-align-center">User</th>
               <th class="text-align-center"></th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="user in currentRole.listUser track by $index">
+            <td></td>
               <td class="text-align-center">{{user.first_name + user.last_name}}</td>
               <td class="text-align-center">
                 <a class="md-icon-button" ng-click="removeUser(user)" ng-show="edit">
@@ -139,23 +159,6 @@
         </table>
       </div>
 
-      <div layout="row" flex="100" ng-show="edit">
-        <md-autocomplete
-          md-selected-item="selectedItem"
-          md-search-text="searchText"
-          md-items="item in listUserSearch"
-          md-item-text="item._id"
-          md-min-length="0"
-          placeholder="What is email of user" flex="30">
-          <md-item-template>
-            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item._id}}</span>
-          </md-item-template>
-          <md-not-found>
-            No states matching {{searchText}} were found.
-          </md-not-found>
-        </md-autocomplete>
-        <md-button md-no-ink class="md-primary" ng-disabled="!selectedItem" ng-click="addUser(selectedItem)">Add User</md-button>
-    </div>
       <!-- End list user -->
 
     </div>

@@ -28,7 +28,6 @@
             <md-input-container class ="md-block"><input type="text" name="lastName"
             ng-model="form.lastname" placeholder="Last Name" >
             </md-input-container>
-
             <md-input-container class="md-block">
               <input type="email" name="email" ng-model="form.email" placeholder="Email" ng-pattern="/^.+@.+\..+$/" required="" email-validate>
               <div ng-messages="registerForm.email.$error">
@@ -54,8 +53,8 @@
               </div>
             </md-input-container>
             <md-input-container class="md-block">
-            <input type="password" name="passwordConfirm"
-            ng-model="form.passwordConfirm" placeholder="Password (Confirm)" required="" compare-to="form.password">
+              <input type="password" name="passwordConfirm"
+              ng-model="form.passwordConfirm" placeholder="Password (Confirm)" required="" compare-to="form.password">
                <div ng-messages="registerForm.passwordConfirm.$error" role="alert" aria-live="assertive" >
                   <div ng-message="required">
                     <span>Password Confirm field is required</span>
@@ -67,10 +66,6 @@
                <div class="md-errors-spacer">
               </div>
             </md-input-container>
-             <md-input-container class ="md-block">
-              <input type="text" name="Space"
-              ng-model="form.space" placeholder="Space" >
-            </md-input-container>
             <md-input-container class="md-block">
               <label>Tenant</label>
               <md-select name="tenant" required=""  ng-model="form.tenant">
@@ -80,14 +75,20 @@
                 <div ng-message="required">Tenant Required</div>
               </div>
             </md-input-container>
+            <!-- <md-input-container class="md-block">
+              <label>Space</label>
+              <md-select name="space" ng-model="form.space._id">
+                <md-option ng-repeat="space in spaces" value="{{space._id}}">{{space.name}}</md-option>
+              </md-select>
+            </md-input-container> -->
             <md-button class="md-raised md-accent submit-button" type="submit" ng-disabled="registerForm.$invalid || registerForm.$pristine" disabled="disabled">CREATE MY ACCOUNT
             </md-button>
           </form>
-            <div class="register" layout="row" layout-sm="column" layout-align="center center">
-              <span class="text" translate="LOGIN_V2.DONT_HAVE_ACCOUNT">Already have an account?
-              </span>
-              <a class="link" href="" translate="LOGIN_V2.CREATE_ACCOUNT">Login</a>
-            </div>
+          <div class="register" layout="row" layout-sm="column" layout-align="center center">
+            <span class="text" translate="LOGIN_V2.DONT_HAVE_ACCOUNT">Already have an account?
+            </span>
+            <a class="link" href="" translate="LOGIN_V2.CREATE_ACCOUNT">Login</a>
+          </div>
         </div>
       </div>
       

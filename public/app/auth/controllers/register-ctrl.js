@@ -13,6 +13,11 @@ define(['auth/module'], function(module) {
         $scope.checkTenant = false;
       }
 		});
+    $scope.getListSpace = function(tenantId){
+      AuthenticationService.getSpaces(tenantId, function(resp){
+        $scope.spaces = resp;
+      });
+    };
     
     $scope.submit = function() {
       var expires = new Date();
@@ -21,8 +26,8 @@ define(['auth/module'], function(module) {
       tenant._id = $scope.form.tenant._id;
       if ($scope.checkEmail == false) {
         AuthenticationService.register($scope.form.email, $scope.form.password, 
-           $scope.form.firstname, $scope.form.lastname, JSON.parse($scope.form.tenant)._id,
-           $scope.form.space, function(data) {
+           $scope.form.firstname, $scope.form.lastname, JSON.parse($scope.form.tenant)._id
+           , function(data) {
           if (data.error) {
             $scope.checkEmail = true;
             $('form').find('fieldset section').first().find('.input').addClass("state-error");

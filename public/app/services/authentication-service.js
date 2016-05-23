@@ -54,8 +54,7 @@ define(['app'], function(app) {
       })
     };
 
-    function register(email, password, firstname, lastname, tenant, space, callback) {
-      console.log(tenant);
+    function register(email, password, firstname, lastname, tenant, callback) {
       var request = {
         method: 'POST',
         url: appConfig.RestEntry + '/api/v1/user/register',
@@ -64,8 +63,7 @@ define(['app'], function(app) {
           password: password,
           firstname: firstname,
           lastname: lastname,
-          tenant: tenant,
-          space: space
+          tenant: tenant
         }
       }
 
@@ -95,6 +93,7 @@ define(['app'], function(app) {
         callback(data);
       });
     };
+    
     function context() {
 
       var dfd = $q.defer();
@@ -141,8 +140,8 @@ define(['app'], function(app) {
       verifyState: function(state) {
         return verifyState(state);
       },
-      register: function(email, password, firstname, lastname, tenant, space, callback) {
-        register(email, password, firstname, lastname, tenant, space, callback);
+      register: function(email, password, firstname, lastname, tenant, callback) {
+        register(email, password, firstname, lastname, tenant, callback);
       },
       getTenants: function(callback){
         getTenants(callback);
