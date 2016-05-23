@@ -1,0 +1,181 @@
+<div id="case" layout="column" flex>
+
+  <!-- Breadcrumbbs -->
+  <div layout="row" class="breadcrumbs" layout-align="start center">
+
+    <div layout="row" layout-align="start center">
+      <md-button aria-label="menu" class="md-icon-button" ng-click="toggleProjectNavLeft()">
+        <md-tooltip md-direction="right">Navigation Menu</md-tooltip>
+        <md-icon md-font-icon="icon-menu" aria-hidden="true"></md-icon>
+      </md-button>
+    </div>
+
+    <div class="item" layout="row" layout-align="start center">
+      <a data-ui-sref="app.projects">Projects</a>
+      <md-icon md-font-icon="icon-chevron-right" class="s24 mh-8"></md-icon>      
+    </div>
+    <div class="item" layout="row" layout-align="start center" ng-repeat="item in breadcrumbs">
+      <a class="text-nowrap-ellipsis" ng-if="item.state" ng-href="{{$state.href(item.state, item.data)}}">
+      {{item.name}}
+      </a>
+      <span ng-if="!item.state">{{item.name}}</span>
+      <md-icon ng-if="!$last" md-font-icon="icon-chevron-right" class="s24 mh-8"></md-icon>      
+    </div>
+
+    <span flex></span>
+
+    <md-button class="animate-slide-down" ng-click="save()" ng-show="hasChanged">
+      <div layout="row" layout-align="start center" class="md-primary-fg">
+        <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
+        <span class="pl-8" flex>Save</span>
+      </div>
+    </md-button>
+
+    <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
+      <div layout="row" layout-align="start center" class="grey-700-fg">
+        <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
+        <span class="pl-8" flex>Cancel</span>
+      </div>
+    </md-button>
+
+    <md-button ng-click="setting($event)">
+      <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
+        <md-icon md-font-icon="icon-pencil" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
+        <span class="pl-8" flex>Rename</span>          
+      </div>
+    </md-button>
+  </div>
+  <!-- End breadcrumbs -->
+
+  <div layout="row" class="content-wrapper" flex>
+
+    <div class="case-container" flex="85" layout="row" layout-align="start start" layout-wrap
+      perfect-scrollbar
+      dnd-list="custom.steps" 
+      dnd-horizontal-list="true" 
+      dnd-external-sources="false"
+      dnd-inserted="dropCallBack(index, event, item)">
+
+      <div ng-repeat="step in custom.steps" layout="row" flex="20"
+        class="step ms-card animate-slide-left"
+        dnd-draggable="step"  
+        dnd-type="'containerType'"
+        dnd-effect-allowed="move"
+        dnd-moved="custom.steps.splice($index, 1)">
+
+        <!-- In case present build-in keyword -->
+        <div class="ms-card-content-wrapper" layout="column" ng-if="!step.steps">
+          <div layout="row" class="p-8">
+            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis">
+              {{step.type}}
+            </a>  
+          </div>
+          <div layout="row" layout-wrap layout-align="start center" flex>
+            <div class="pl-8 pb-8" ng-repeat="param in step.params" layout="row" flex="100" layout-align="start center">
+              <div layout="row">
+                <span class="text-bold pr-8">{{param}}</span>
+                <span class="text-nowrap-ellipsis">
+                  <md-tooltip>{{step[param]}}</md-tooltip>
+                  {{step[param]}}
+                </span>                
+              </div>
+            </div>
+          </div>
+          <div layout="row" class="p-8 border-top">
+            <span class="badge-order white-fg green-400-bg width-24 text-center">{{$index+1}}</span>
+            <span flex></span>
+            <a href-void ng-click="removeStep($index)">
+              <md-tooltip>Remove</md-tooltip>
+              <md-icon md-font-icon="s16 icon-close" class="md-warn-fg"></md-icon>
+            </a>
+          </div>
+        </div>
+        <!-- End build-in keyword -->
+
+        <!-- In case present group keywords -->
+        <div class="ms-card-content-wrapper" layout="column" ng-if="step.steps">
+          <div layout="row" class="p-8">
+            <span class="text-bold pr-8">[Group]</span>
+            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis">
+              {{step.name}}
+            </a>  
+          </div>
+          <div layout="row" class="p-8" flex>
+            <span class="text-bold pr-8">Step(s)</span>
+            <span class="text-nowrap-ellipsis">
+              {{step.steps.length}} step(s)
+            </span>                
+          </div>
+
+          <div layout="row" class="p-8 border-top">
+            <span class="badge-order white-fg green-400-bg width-24 text-center">{{$index+1}}</span>
+            <span flex></span>
+            <a href-void ng-click="removeStep($index)">
+              <md-tooltip>Remove</md-tooltip>
+              <md-icon md-font-icon="s16 icon-close" class="md-warn-fg"></md-icon>
+            </a>
+          </div>
+        </div>
+        <!-- End group keywords -->
+
+      </div>
+    </div>
+
+    <div layout="row" flex="15" class="list-steps ms-widget md-whiteframe-14dp">
+      <div class="ms-widget-front white-bg" layout="column" flex>
+        
+        <div layout="row" layout-align="start center" class="p-16 filter">
+          <md-icon md-font-icon="icon-magnify"></md-icon>
+          <input class="pl-8" flex placeholder="Search for keyword" ng-model="queryText">
+          <a href-void ng-show="queryText" ng-click="queryText = undefined;"><md-icon md-font-icon="icon-close"></md-icon></a>
+        </div>
+
+        <md-content perfect-scrollbar>
+          <div layout="row" flex="100" layout-wrap>
+            <div class="category-container" ng-repeat="(cat, steps) in keywords"
+              flex="100" layout="column">
+              <div class="category expanded md-primary-bg" 
+                ng-click="toggleCategory($event)" 
+                layout="row" layout-align="start center">
+                <span>{{cat}}</span>
+                <span flex></span>
+                <md-icon md-font-icon="icon-chevron-right" class="white-fg"></md-icon>
+              </div>
+              <div layout="column" flex="100" class="steps-container">
+                <div class="border-bottom step" 
+                  ng-repeat="sel in getListSteps(cat) | filter: {'type': queryText}"
+                  ng-init="step = {}; step['type'] = sel.type; step.params = []; step.isNew = true"
+                  dnd-draggable="step"
+                  dnd-effect-allowed="move" layout="column">
+                  
+                  <div layout="row" layout-align="start center" layout-wrap>
+                    <span class="text-bold">
+                      <md-tooltip>{{sel.description}}</md-tooltip>
+                      {{sel.type}}
+                    </span>
+                    <span>(</span>
+                    <span ng-repeat="(key, value) in sel.params" ng-init="step.params[$index] = key;">
+                      <md-tooltip>{{value}}</md-tooltip>
+                      {{key}}
+                      <span ng-if="!$last">,</span>
+                    </span>
+                    <span>)</span>
+                  </div>  
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </md-content>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+      </md-tab>
+    </md-tabs>
+  </md-content>
+   -->
+</div>

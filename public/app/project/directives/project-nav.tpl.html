@@ -7,7 +7,6 @@
       </a>
     </div>
   </li>
-
   <!-- Start keyword items -->
   <li id="keyword-menu" class="ms-navigation-node has-children collapsed">
     <div class="ms-navigation-item" layout="row">
@@ -30,6 +29,13 @@
         <div class="ms-navigation-item" layout="row">
           <a data-state="app.project.keyword-cases" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-cases'}" ng-click="active($event)">
             <span class="title black-fg" flex>Cases</span>
+          </a>
+        </div>
+      </li>
+      <li class="ms-navigation-node">
+        <div class="ms-navigation-item" layout="row">
+          <a data-state="app.project.keyword-customs" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-customs'}" ng-click="active($event)">
+            <span class="title black-fg" flex>Group keywords</span>
           </a>
         </div>
       </li>
