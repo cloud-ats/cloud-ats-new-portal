@@ -1,0 +1,29 @@
+<md-dialog aria-label="Create Custom"  ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools md-primary-bg">
+        <span class="md-title text-nowrap">Create New Custom Case</span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <form name="createForm">
+          <md-input-container class="md-block">
+          <label>New Custom Case Name</label>
+          <input type="text" name="caseName" required ng-model="custom.name" md-autofocus>
+          <div ng-messages="createForm.caseName.$error" role="alert" aria-live="assertive" >
+              <div ng-message="required">Custom case name is required</div>
+          </div>
+          </md-input-container>
+        </form>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" >
+      <span flex></span>
+      <md-button class="md-primary" ng-click="submit()" ng-disabled="createForm.$invalid || createForm.$pristine">
+       Create
+      </md-button>
+      <md-button class="md-primary" ng-click="cancel()" style="margin-right:20px;">
+        CANCEL
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>

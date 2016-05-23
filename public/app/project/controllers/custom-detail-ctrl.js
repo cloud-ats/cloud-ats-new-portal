@@ -1,7 +1,7 @@
 define(['project/keyword-module', 'lodash'], function (module, _) {
 	'use strict';
 
-	module.registerController('CaseDetailCtrl', ['$mdSidenav', 'DataService', '$scope', 'KeywordService', 
+	module.registerController('CustomDetailCtrl', ['$mdSidenav', 'DataService', '$scope', 'KeywordService', 
     'CaseService', '$state', '$stateParams', '$timeout','$mdDialog', '$mdToast', 'CustomKeywordService',
     function ($mdSidenav, DataService, $scope, KeywordService, CaseService, $state, $stateParams, $timeout ,$mdDialog, $mdToast, CustomKeywordService) {
 
@@ -11,9 +11,8 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     $scope.toggleProjectNavLeft = function() {
       $mdSidenav('project-nav-left').toggle();
     };
-
 		$scope.projectId = $stateParams.id;
-    $scope.cazeId = $stateParams.caseId;
+    $scope.customId = $stateParams.customId;
     $scope.hasChanged = false;
 
     $scope.types = [
@@ -41,60 +40,33 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     }
 
     var initData = function() {
-      CaseService.get($scope.projectId, $scope.cazeId, function (data, status) {
-        $scope.caze = data;
-        $scope.caze.originSteps = angular.copy($scope.caze.steps);
-        $scope.params = buildParamList(data);
-
+      CustomKeywordService.get($scope.projectId, $scope.customId, function (data, status) {
+        $scope.custom = data;
+        $scope.custom.steps = data.steps ? data.steps : [];
+        $scope.custom.originSteps = angular.copy($scope.custom.steps);
         var overview = {
-          name: $scope.caze.project,
-          state: 'app.project.overview',
+          name: $scope.custom.project,
+          state: 'app.project.keyword-reports',
           data: {
             id: $scope.projectId
           }
         }
-        var cases = {
-          name: 'Cases',
-          state: 'app.project.keyword-cases',
+        var customs = {
+          name: 'Group Keywords',
+          state: 'app.project.keyword-customs',
           data: {
             id: $scope.projectId
           }
         }
-        var caze = {
-          name: $scope.caze.name
+        var custom = {
+          name: $scope.custom.name
         }
 
-        $scope.breadcrumbs = [overview, cases, caze];
+        $scope.breadcrumbs = [overview, customs, custom];
 
-        if ($scope.caze.data_driven) {
-          var dataDriven = {
-            name: '[Data Driven] ' + $scope.caze.data_driven.name,
-            state: 'app.project.keyword-cases.case.data',
-            data: {
-              id: $scope.projectId,
-              caseId: $scope.cazeId,
-              params: _.join($scope.params, ',')
-            }
-          }
-          $scope.breadcrumbs.push(dataDriven);
-        } else if (buildParamList($scope.caze).length){
-          var dataDriven = {
-            name: '[Data Driven] Empty',
-            state: 'app.project.keyword-cases.case.data',
-            data: {
-              id: $scope.projectId,
-              projectName: $scope.caze.project,
-              caseId: $scope.cazeId,
-              caseName: $scope.caze.name,
-              params: _.join($scope.params, ',')
-            }
-          }
-          $scope.breadcrumbs.push(dataDriven);
-        }
-
-        $scope.$watch('caze.steps', function(newSteps, oldSteps) {
+        $scope.$watch('custom.steps', function(newSteps, oldSteps) {
           if (newSteps !== oldSteps) {
-            if (detectChanged(newSteps, $scope.caze.originSteps)) {
+            if (detectChanged(newSteps, $scope.custom.originSteps)) {
               $scope.hasChanged = true;
             } else {
               $scope.hasChanged = false;
@@ -105,10 +77,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         $scope.$watch('params', function(newValue, oldValue) {
           if (newValue !== oldValue) {
           }
-        });
-
-        CustomKeywordService.list($scope.projectId, function(response) {
-          $scope.customs = response.customs;
         });
 
       });
@@ -148,37 +116,36 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     }
 
     $scope.dropCallBack = function (index, event, step) {
-      
       if (step.isNew) {
-        if (index >= $scope.caze.steps.length - 1) {
-          $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+        if (index >= $scope.custom.steps.length - 1) {
+          $scope.clickToStep(event, step, $scope.custom.steps.length - 1);
         } else {
-          $scope.caze.steps.splice(index, 1);
-          $scope.caze.steps.push(step);
-          $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+          $scope.custom.steps.splice(index, 1);
+          $scope.custom.steps.push(step);
+          $scope.clickToStep(event, step, $scope.custom.steps.length - 1);
         }
       }
       if (step.steps) {
         var steps = step.steps;        
-        $scope.caze.steps.splice($scope.caze.steps.length - 1);
+        $scope.custom.steps.splice($scope.custom.steps.length - 1);
         _.forEach(steps, function(sel) {
-          $scope.caze.steps.push(sel);
+          $scope.custom.steps.push(sel);
         });
       }
     }
 
     $scope.cancel = function () {
-      $scope.caze.steps = angular.copy($scope.caze.originSteps);
+      $scope.custom.steps = angular.copy($scope.custom.originSteps);
     }
 
     $scope.save = function () {
-      var caze = {
-        _id: $scope.caze._id,
-        name: $scope.caze.name,
-        steps: $scope.caze.steps
+      var custom = {
+        _id: $scope.custom._id,
+        name: $scope.custom.name,
+        steps: $scope.custom.steps
       };
 
-      CaseService.update($scope.caze.project_id, caze, function (data, status){
+      CustomKeywordService.update($scope.custom.project_id, custom, function (data, status){
         switch (status) {
           case 200: 
             $mdToast.show($mdToast.simple().position('top right').textContent('The case has been updated!'));
@@ -195,12 +162,11 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     }
 
     $scope.removeStep = function (index) {
-      $scope.caze.steps.splice(index, 1);
-      $scope.params = buildParamList($scope.caze);
+      $scope.custom.steps.splice(index, 1);
     }
 
     $scope.clickToStep = function (ev, step, $index) {
-      $scope.originCase = angular.copy($scope.caze);
+      $scope.originCustom = angular.copy($scope.custom);
       $scope.step = angular.copy(step);
       $scope.organizeMode = true;
       $scope.originStep = angular.copy($scope.step);
@@ -222,38 +188,16 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           };
           $scope.submit = function() {
             $scope.step.isNew = undefined;
-            $scope.caze.steps[$index] = $scope.step;
+            $scope.custom.steps[$index] = $scope.step;
             $mdDialog.cancel();
-            $scope.params = buildParamList($scope.caze);
           };
           $scope.remove = function() {
-            $scope.caze.steps.splice($index, 1);
+            $scope.custom.steps.splice($index, 1);
             $mdDialog.cancel();
-            $scope.params = buildParamList($scope.caze);
           }
         }
       })
     }
-
-    var buildParamList = function(caze) {
-      var params = [];
-      _.forEach(caze.steps, function(step) {
-        _.forEach(step.params, function(param) {
-          var val = step[param];
-          if (val instanceof Object) {
-            val = val.value;
-          }
-
-          var startIndex = val.indexOf('${');
-          var endIndex = val.lastIndexOf('}');
-          if (startIndex == 0 && endIndex == (val.length - 1)) {
-            var variable = val.substring(startIndex + 2, endIndex);
-            if (params.indexOf(variable) == -1) params.push(variable);
-          }
-        });
-      });
-      return params;
-    };
 
 	}]);
 })

@@ -1,8 +1,8 @@
 define(['project/module', 'lodash'], function (module, _) {
   'use strict';
   module.registerController('ReportFuncCtrl', 
-    ['$mdToast', 'EventService', '$mdDialog', '$scope', '$rootScope', '$state', '$stateParams', '$templateRequest', '$compile', '$cookies', 'KeywordService',
-    function($mdToast, EventService, $mdDialog, $scope, $rootScope, $state, $stateParams, $templateRequest, $compile, $cookies, KeywordService) {
+    ['$mdMedia', '$mdToast', 'EventService', '$mdDialog', '$scope', '$rootScope', '$state', '$stateParams', '$templateRequest', '$compile', '$cookies', 'KeywordService',
+    function($mdMedia, $mdToast, EventService, $mdDialog, $scope, $rootScope, $state, $stateParams, $templateRequest, $compile, $cookies, KeywordService) {
 
       $scope.projectId = $stateParams.id;
 
@@ -21,7 +21,14 @@ define(['project/module', 'lodash'], function (module, _) {
         value:0
       };
       $scope.listReports = [];
-      
+      $scope.$parent.isSidenavOpen = true;
+      $scope.$parent.isSidenavLockedOpen = $mdMedia('gt-md');
+
+      $scope.$watch(function() { return $mdMedia('gt-md'); }, function(big) {
+        $scope.$parent.isSidenavLockedOpen = big;
+        $scope.$parent.isSidenavOpen = big;
+      });
+
       KeywordService.get($scope.projectId, function(response) {
         $scope.project = response;
         if($scope.project.lastJobId) {

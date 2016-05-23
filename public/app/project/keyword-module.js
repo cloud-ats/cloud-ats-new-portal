@@ -220,6 +220,65 @@ define([
         requireLogin: true
       }
     })
+    .state('app.project.keyword-customs', {
+      url: '/project/:id/keyword/customs',
+      views: {
+        'search-box@app': {
+          templateUrl: 'app/project/views/keyword/customs-search-box.tpl.html',
+          controller: 'CustomActionCtrl'
+        },
+        'sub-content@app.project': {
+          templateUrl: 'app/project/views/keyword/customs.tpl.html',
+          controller: 'CustomsCtrl',
+          resolve: {
+            deps: $couchPotatoProvider.resolveDependencies([
+              'project/directives/project-nav',
+              'project/controllers/customs-ctrl',
+              'project/controllers/customs-action-ctrl',
+              'project/controllers/execution-func-ctrl',
+              'project/services/shared-data-service',
+              'services/custom-keyword-service',
+              'services/keyword-service',
+              'services/suite-service'
+            ])
+          }
+        },
+        'header-box@app.project': {
+          templateUrl: 'app/project/views/keyword/customs-header-box.tpl.html',
+          controller: 'CustomActionCtrl'
+        }
+      },
+      data: {
+        title: 'Project Keyword Customs',
+        requireLogin: true
+      }
+    })
+    .state('app.project.keyword-customs.custom', {
+      url: '/:customId',
+      views: {
+        'sub-content@app.project': {
+          templateUrl: 'app/project/views/keyword/custom-detail.tpl.html',
+          controller: 'CustomDetailCtrl',
+          resolve: {
+            deps: $couchPotatoProvider.resolveDependencies([
+              'project/directives/project-nav',
+              'project/controllers/custom-detail-ctrl',
+              'services/case-service',
+              'services/keyword-service',
+              'services/custom-keyword-service',
+              'services/data-service'
+            ])
+          }
+        },
+        'search-box@app': {
+          templateUrl: 'app/project/views/keyword/custom-detail-search-box.tpl.html'
+        }
+      },
+      data: {
+        title: 'Project Keyword Custom Detail',
+        requireLogin: true
+      }
+    })
   }]);
 
   couchPotato.configureApp(module);

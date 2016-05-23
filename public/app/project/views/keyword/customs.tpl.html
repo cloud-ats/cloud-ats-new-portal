@@ -1,0 +1,53 @@
+<div id="cases" layout="column">
+
+  <md-content class="md-hue-1" perfect-scrollbar>
+    <div class="projects-container" layout="row" flex="100" layout-wrap>
+      <div ng-repeat="custom in sharedData.project.customs | filter: sharedData.searchCustoms" layout="row" flex="20" class="project ms-card"> 
+        <div class="ms-card-content-wrapper" style="border-left: 3px solid #2E62B1;">
+
+          <div class="text-nowrap-ellipsis h2 p-16">
+            <a href="javascript:void(0)" ng-click="clickCustom($event, custom._id)" class="md-primary-fg">
+              <md-tooltip>{{custom.name}}</md-tooltip>
+              {{custom.name}}
+            </a>
+          </div>
+
+          <div class="creator ph-16 pb-16" layout="row" layout-align="start center">
+            <div layout="column" flex>
+              <div layout="row" layout-align="start center">
+                <span class="text-bold pr-8">Creator:</span>
+                <a href="javascript:void(0)" class="text-nowrap-ellipsis" flex>
+                  <md-tooltip>{{custom.creator.email}}</md-tooltip>
+                  {{custom.creator.first_name}} {{custom.creator.last_name}}
+                </a>
+              </div>
+              <div layout="row" layout-align="start center">
+                <span class="text-bold pr-8 text-nowrap-ellipsis">Created Date:</span>
+                <span class="subtitle secondary-text text-nowrap-ellipsis">
+                <md-tooltip>{{parse(custom.created_date)}}</md-tooltip>
+                {{parse(custom.created_date)}}
+                </span>
+              </div>
+              <div>
+                <span class="text-bold pr-8">Total Step(s):</span> 
+                <span>{{custom.steps.length}} Step(s)</span>
+              </div>
+            </div>
+          </div>
+
+          <md-divider></md-divider>
+
+          <div layout="row" layout-align="start center">
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Delete this custom" ng-click="delete($event, custom._id)">
+              <md-tooltip>Delete</md-tooltip>
+              <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
+            </md-button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </md-content>
+
+</div>
