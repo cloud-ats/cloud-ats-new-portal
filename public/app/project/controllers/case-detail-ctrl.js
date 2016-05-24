@@ -48,7 +48,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 
         var overview = {
           name: $scope.caze.project,
-          state: 'app.project.overview',
+          state: 'app.project.keyword-reports',
           data: {
             id: $scope.projectId
           }
@@ -192,6 +192,40 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           default: break; 
         }
       });
+    }
+
+    $scope.group = function (ev) {
+      $mdDialog.show({
+          
+        templateUrl: 'app/project/views/keyword/custom-create-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        scope: $scope,
+        preserveScope: true,
+        controller: function() {
+
+          $scope.cancelGroup = function() {
+            $mdDialog.cancel();
+          };
+          $scope.submit = function() {
+            var custom = {
+              name: $scope.custom.name,
+              steps: $scope.caze.steps
+            };
+
+            CustomKeywordService.create($scope.projectId, custom, function (data, status){
+              switch (status) {
+                case 201: 
+                  $mdToast.show($mdToast.simple().position('top right').textContent('The group keyword has been created!'));
+                  $mdDialog.cancel();
+                  break;
+                default: break; 
+              }
+            });
+          };
+        }
+      })
     }
 
     $scope.removeStep = function (index) {
