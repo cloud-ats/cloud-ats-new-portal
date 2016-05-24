@@ -199,5 +199,43 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       })
     }
 
+    $scope.setting = function (ev) {
+
+      $mdDialog.show({
+          
+        templateUrl: 'app/project/views/keyword/custom-form-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:false,
+        scope: $scope,
+        preserveScope: true,
+        controller: function() {
+
+          $scope.originCustomName = $scope.custom.name;
+          $scope.cancel = function() {
+            $scope.custom.name = $scope.originCustomName;
+            $mdDialog.cancel();
+          };
+
+          $scope.submit = function() {
+            var custom = {
+              name: $scope.custom.name,
+              _id: $scope.custom._id
+            };
+            CustomKeywordService.rename($scope.projectId, custom, function (data, status) {
+              if (status == 200) {
+
+                $scope.breadcrumbs[2].name = custom.name;
+                $mdToast.show($mdToast.simple().position('top right').textContent('The group keyword has been updated!'));
+              } else if (status == 204) {
+                $mdToast.show($mdToast.simple().position('top right').textContent('Nothing to update.'));
+              }
+              $mdDialog.cancel();
+            });
+          };
+        }
+      })
+    }
+
 	}]);
 })
