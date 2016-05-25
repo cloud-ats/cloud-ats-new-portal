@@ -1,8 +1,8 @@
 define(['acl/module', 'lodash'], function (module, _) {
 	
 	'use strict';
-	module.registerController('SpacesCtrl', ['TenantAdminService', '$filter','$scope', '$mdDialog', 'SpaceService', '$mdToast',
-		function (TenantAdminService, $filter, $scope, $mdDialog, SpaceService, $mdToast) {
+	module.registerController('SpacesCtrl', ['TenantAdminService', '$filter','$scope', 'SpaceService', '$mdToast',
+		function (TenantAdminService, $filter, $scope, SpaceService, $mdToast) {
 
 		$scope.spaces = [];
 		$scope.currentSpace = null ;
@@ -32,16 +32,16 @@ define(['acl/module', 'lodash'], function (module, _) {
 			ev.stopPropagation();
 		};
 
-		$scope.$watch('searchText', function(newText, oldText) {
+    $scope.$watch('searchText', function(newText, oldText) {
       if (newText !== oldText) {
-      	if(newText){
-      		$scope.listUserSearch = [];
-      		TenantAdminService.search(newText, function (data, status) {
-      			angular.forEach(data, function(value, key) {
-			  			$scope.listUserSearch.push(value);
-						});
-					});
-      	}
+        if(newText){
+          $scope.listUserSearch = [];
+          TenantAdminService.search(newText, function (data, status) {
+            angular.forEach(data, function(value, key) {
+              $scope.listUserSearch.push(value);
+            });
+          });
+        }
       }
     });
 
@@ -63,7 +63,13 @@ define(['acl/module', 'lodash'], function (module, _) {
 		$scope.clickSave = function() {
 			SpaceService.update($scope.currentSpace, function(resp, status){
 				if(status == 201){
-					$scope.currentSpace._id = resp._id;
+					// $scope.currentSpace._id = resp._id;
+					var space = _.find($scope.spaces, function (space) {
+            return space._id === $scope.currentSpace._id;
+          });
+          space.name = resp.name;
+          space.desc = resp.desc;
+          space.listUser = $scope.currentSpace.listUser;
     			$mdToast.show($mdToast.simple().position('top right').textContent('Submit Space Success!'));
     			$scope.edit = false;
     		} else {
@@ -91,7 +97,7 @@ define(['acl/module', 'lodash'], function (module, _) {
 			var index = $scope.spaces.indexOf(space);
 			SpaceService.delete(space._id, function(resp, status){
 				$scope.spaces.splice(index, 1);
-				$scoe.currentSpace = scope.spaces[0];
+				$scope.currentSpace = scope.spaces[0];
 				if(status == 200){
     			$mdToast.show($mdToast.simple().position('top right').textContent('Delete Space Success!'));
     		} else {

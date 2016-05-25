@@ -9,13 +9,13 @@
           		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
             </a>
         </div>
-      	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="space in spaces track by $index" ng-click="selectSpace(space)"  ng-class="{active: currentSpace.name == space.name}">
+      	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="space in spaces track by $index" ng-click="selectSpace(space)"  ng-class="{active: currentSpace._id == space._id}">
           	<span flex>{{space.name}}</span>
-          	<a class="md-icon-button" ng-click="editSpace($event)" ng-show=" currentSpace.name == space.name">
+          	<a class="md-icon-button" ng-click="editSpace($event)" ng-show="space.name !== 'Public' && currentSpace._id == space._id">
           		<md-tooltip>Edit Space</md-tooltip>
           		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
             </a>
-          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="currentSpace.name == space.name">
+          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="space.name !== 'Public' && currentSpace._id == space._id">
           		<md-tooltip>Delete Space</md-tooltip>
           		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
             </a>
@@ -101,8 +101,8 @@
   					</tr>
   				</thead>
   				<tbody>
-  				  <tr ng-repeat="user in currentSpace.listUser track by $index">
-            <td></td>
+  				  <tr ng-repeat="user in currentSpace.listUser track by $index" ng-show="currentSpace.name !== 'Public'">
+              <td class="text-align-center">{{user._id}}</td>
               <td class="text-align-center">{{user.first_name + user.last_name}}</td>
               <td class="text-align-center">
                 <a class="md-icon-button" ng-click="removeUser(user)" ng-show="edit">

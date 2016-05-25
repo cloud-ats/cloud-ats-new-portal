@@ -1,7 +1,8 @@
 define(['auth/module'], function (module) {
 	'use strict';
 
-	module.registerController('LoginCtrl', ['$mdToast', '$cookies', '$scope', '$state', '$rootScope', '$window', 'AuthenticationService', function ($mdToast, $cookies, $scope, $state, $rootScope, $window, AuthenticationService) {
+	module.registerController('LoginCtrl', ['UserService', '$mdToast', '$cookies', '$scope', '$state', '$rootScope', '$window', 'AuthenticationService', 
+    function (UserService, $mdToast, $cookies, $scope, $state, $rootScope, $window, AuthenticationService) {
 		$scope.login = function () {
 			var expires = new Date();
       expires.setDate(expires.getDate() + 365);
@@ -49,6 +50,8 @@ define(['auth/module'], function (module) {
               $window.sessionStorage.setItem('context', JSON.stringify(context));
               $rootScope.context = context;
               $state.go('app.dashboard');
+              var space = {_id : $cookies.get('space')};
+              UserService.go(space);
             });
           }
         });

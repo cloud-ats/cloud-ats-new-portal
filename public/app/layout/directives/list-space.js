@@ -1,21 +1,21 @@
 define(['layout/module'], function(module) {
   'use strict';
 
-  module.registerDirective('listSpace', ['$rootScope', 'UserService', function($rootScope, UserService) {
+  module.registerDirective('listSpace', ['$state', '$rootScope', 'UserService',
+    function($state, $rootScope, UserService) {
     return {
       restrict: 'AE',
       replace: true,
       link: function(scope, element) {
+        UserService.spaces().then(function(spaces) {
+          scope.spaces = spaces;
+        });
         
         if ($rootScope.context !== undefined && $rootScope.context.space !== undefined) {
           scope.space = $rootScope.context.space.name;
         } else {
           scope.space = 'Public';
         }
-
-        UserService.spaces().then(function(spaces) {
-          scope.spaces = spaces;
-        });
 
         scope.select = function(space) {
           if (space === undefined) {
@@ -25,6 +25,7 @@ define(['layout/module'], function(module) {
             scope.space = space.name;
             UserService.go(space);
           }
+          $state.reload();
         }
       }
     }

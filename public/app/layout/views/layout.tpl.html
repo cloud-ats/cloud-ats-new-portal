@@ -20,7 +20,7 @@
       </div>
 
       <div class="space" layout="row" layout-align="start center" list-space>
-        <span>{{getWord('Space')}}: Public</span>
+        <span>{{getWord('Space')}}: {{space}}</span>
       </div>
 
       <!-- Search box -->
@@ -104,10 +104,9 @@
                 <md-icon md-font-icon="icon-account-multiple-outline" style="color: green;"></md-icon>
                 <md-menu>
                   <md-button ng-click="$mdOpenMenu()">Spaces</md-button>
-                  <md-menu-content width="3">
-                    <md-menu-item><md-button>Public</md-button></md-menu-item>
-                    <md-menu-item><md-button>FSU1.BU11</md-button></md-menu-item>
-                  </md-menu-content>
+                    <md-menu-content width="3">
+                      <md-menu-item ng-repeat="spaceItem in spaces"><md-button ng-click="select(spaceItem)">{{spaceItem.name}}</md-button></md-menu-item>
+                    </md-menu-content>
                 </md-menu>
               </md-menu-item>
               <md-menu-divider></md-menu-divider>

@@ -1,8 +1,8 @@
 define(['acl/module', 'lodash'], function (module, _) {
 	
 	'use strict';
-	module.registerController('RolesCtrl', ['TenantAdminService', 'SpaceService', 'RoleService', '$filter','$scope', '$mdDialog', '$mdToast',
-		function (TenantAdminService, SpaceService, RoleService, $filter, $scope, $mdDialog, $mdToast) {
+	module.registerController('RolesCtrl', ['TenantAdminService', 'SpaceService', 'RoleService', '$filter','$scope', '$mdToast',
+		function (TenantAdminService, SpaceService, RoleService, $filter, $scope, $mdToast) {
       
       $scope.permTemplate = {
         tenant: {
@@ -28,6 +28,7 @@ define(['acl/module', 'lodash'], function (module, _) {
 
       $scope.roles = [];
       $scope.listSpaces = [];
+      $scope.listprojects = [];
 
       $scope.clickSave = function(){
         var permTransf = [];
@@ -48,9 +49,17 @@ define(['acl/module', 'lodash'], function (module, _) {
         role.permissions = permTransf ;
         RoleService.update(role, function(resp, status){
         	if (status == 201) {
-        		$scope.currentRole._id = resp._id;
-        		$scope.currentRole.space = getSpace(resp.space._id);
-        		$scope.edit = false;
+            var role = _.find($scope.roles, function (role) {
+              return role._id === $scope.currentRole._id;
+            });
+            role = resp;
+            $scope.currentRole._id = resp._id;
+            $scope.currentRole.name = resp.name;
+            $scope.currentRole.space = getSpace(resp.space._id);
+            $scope.currentRole.permissions = buildPermission(resp);
+            console.log()
+            $scope.edit = false;
+
         		$mdToast.show($mdToast.simple().position('top right').textContent('Submit Role Success!'));
         	} else {
         		$mdToast.show($mdToast.simple().position('top right').textContent('Submit Role Error!'));
@@ -152,6 +161,11 @@ define(['acl/module', 'lodash'], function (module, _) {
       	$scope.currentRole.listUser.push(user);
 				$scope.searchText = "";
 			};
+
+      $scope.removeUser = function(user){
+        var index = $scope.currentRole.listUser.indexOf(user);
+        $scope.currentRole.listUser.splice(index, 1);
+      };
 
 			$scope.selectRole = function(role){
 				$scope.currentRole = angular.copy(role);

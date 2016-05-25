@@ -14,17 +14,17 @@
           </a>
         </div>
       	<div ng-repeat="role in roles" layout="column"   
-          ng-class="{active: currentRole.name == role.name}" ng-click="selectRole(role)">
+          ng-class="{active: currentRole._id == role._id}" ng-click="selectRole(role)">
           
           <authorization feature="*" action="grant_permisson" root-only="{{role.name == root}}">
             <div class="p-16" layout-align="start center" layout="row" ng-show="role._id">
             	<span>{{role.name}}</span>
               <span flex></span>
-            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole.name == role.name" ng-click="editRole($event)">
+            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole._id == role._id" ng-click="editRole($event)">
             		<md-tooltip>Edit Role</md-tooltip>
             		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
               </a>
-            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole.name == role.name" ng-click="deleteRole(role._id)">
+            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole._id == role._id" ng-click="deleteRole(role._id)">
             		<md-tooltip>Delete Role</md-tooltip>
             		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
               </a>
@@ -44,7 +44,8 @@
       
       <div layout="row" ng-show="!edit" flex="100">
         <h3 flex="30">Role Name: {{currentRole.name}}</h3>
-        <h3 flex="40">Space: {{currentRole.space.name ? currentRole.space.name : 'All Space'}}</h3>
+        <h3 flex="30">Space: {{currentRole.space.name ? currentRole.space.name : 'All Space'}}</h3>
+        <!-- <h3 flex="30">Space: {{currentRole.project.name ? currentRole.Project.name : 'All Projects'}}</h3> -->
       </div>
 
       <div flex="100" layout="row" ng-show="edit">
@@ -58,7 +59,7 @@
         <md-input-container>
           <label>Choose Space</label>
           <md-select name="spaceName" ng-model="currentRole.space._id" required>
-            <md-option value="*">All spaces</md-option>
+            <md-option value="*" ng-show="currentRole.name == root">All spaces</md-option>
             <md-option ng-repeat="spaceChoose in listSpaces" value="{{spaceChoose._id}}">
               {{spaceChoose.name}}
             </md-option>
@@ -67,6 +68,18 @@
             <div ng-message="required">Choose Space Required</div>
           </div>
         </md-input-container>
+        <!-- <md-input-container>
+          <label>Choose Project</label>
+          <md-select name="projectName" ng-model="currentRole.project._id" required>
+            <md-option value="*" ng-show="currentRole.name == root">All Projects</md-option>
+            <md-option ng-repeat="projectChoose in listProjects" value="{{projectChoose._id}}">
+              {{projectChoose.name}}
+            </md-option>
+          </md-select>
+          <div class="errors" ng-messages="roleForm.spaceName.$error" >
+            <div ng-message="required">Choose Space Required</div>
+          </div>
+        </md-input-container> -->
         <span flex></span>
         <md-button class="animate-slide-down" ng-click="clickSave()" ng-disabled="roleForm.$invalid">
           <div layout="row" layout-align="start center" class="md-primary-fg">
@@ -146,7 +159,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="user in currentRole.listUser track by $index">
-            <td></td>
+              <td class="text-align-center">{{user._id}}</td>
               <td class="text-align-center">{{user.first_name + user.last_name}}</td>
               <td class="text-align-center">
                 <a class="md-icon-button" ng-click="removeUser(user)" ng-show="edit">

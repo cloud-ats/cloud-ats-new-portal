@@ -28,11 +28,7 @@ define(['projects/module','lodash'], function (module, _) {
     });
 
     $scope.clickProject = function ($event, _id) {
-      if(true){
-        $scope.flex = 10 ;
-      } else {
-        $scope.flex = 11 ;
-      }
+      $scope.flex = 11 ;
       $scope.projectName = $event.currentTarget.innerText;
       $scope.currentId = _id;
       $mdBottomSheet.show({
