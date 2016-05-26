@@ -26,6 +26,7 @@ define(['layout/module'], function(module) {
               //call to service to get current context with authToken if session is not setted
               if (current === 'null' || current === null) {
                 AuthenticationService.context().then(function(context) {
+                  console.log(context);
                   if (context.user === undefined && context.tenant === undefined) {
                     $state.go('login');
                     event.preventDefault();

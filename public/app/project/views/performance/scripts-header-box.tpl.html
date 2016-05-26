@@ -20,13 +20,15 @@
 
 </div>
 
-<div class="header-action" layout="row" layout-align="start center">
-  <md-button class="md-raised md-primary white-fg" aria-label="Create New Test Script" ng-click="createDialog($event)" flex>
-    Create New Test Script
-  </md-button> 
-</div>
-<div class="header-action" layout="row" layout-align="start center" ng-controller="ExecutionPerfCtrl">
-  <md-button class="md-raised md-accent" aria-label="Execute New Job" flex ng-click="showExecutionPerformance($event)">
-    Execute New Job
-  </md-button>      
-</div>      
+<authorization data-feature="project" data-action="manage_performance">
+  <div class="header-action" layout="row" layout-align="start center">
+    <md-button class="md-raised md-primary white-fg" aria-label="Create New Test Script" ng-click="createDialog($event)" flex>
+      Create New Test Script
+    </md-button> 
+  </div>
+  <div class="header-action" layout="row" layout-align="start center" ng-controller="ExecutionPerfCtrl">
+    <md-button class="md-raised md-accent" aria-label="Execute New Job" flex ng-click="showExecutionPerformance($event)">
+      Execute New Job
+    </md-button>      
+  </div>  
+</authorization>    

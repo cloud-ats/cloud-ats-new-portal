@@ -24,19 +24,21 @@
 
     <span flex></span>
 
-    <md-button class="animate-slide-down md-primary" ng-click="save()" ng-show="sharedData.hasChanged " ng-disabled="!validated">
-      <div layout="row" layout-align="start center">
-        <md-icon md-font-icon="icon-floppy" aria-hidden="true"></md-icon>
-        <span class="pl-8" flex>Save</span>
-      </div>
-    </md-button>
+    <authorization data-feature="project" data-action="manage_functional">
+      <md-button class="animate-slide-down md-primary" ng-click="save()" ng-show="sharedData.hasChanged " ng-disabled="!validated">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-floppy" aria-hidden="true"></md-icon>
+          <span class="pl-8" flex>Save</span>
+        </div>
+      </md-button>
 
-    <md-button class="animate-slide-down" ng-click="cancel()" ng-show="sharedData.hasChanged">
-      <div layout="row" layout-align="start center">
-        <md-icon md-font-icon="icon-cancel" aria-hidden="true"></md-icon>
-        <span class="pl-8" flex>Cancel</span>
-      </div>
-    </md-button>
+      <md-button class="animate-slide-down" ng-click="cancel()" ng-show="sharedData.hasChanged">
+        <div layout="row" layout-align="start center">
+          <md-icon md-font-icon="icon-cancel" aria-hidden="true"></md-icon>
+          <span class="pl-8" flex>Cancel</span>
+        </div>
+      </md-button>
+    </authorization>
 
     <div class="border-left" layout="row" layout-align="start center">
       <md-button class="md-primary" ng-click="addRow()" ng-disabled="sharedData.dataQueryText">
@@ -68,28 +70,30 @@
         </div>
       </md-button>
 
-      <md-menu-bar>
-        <md-menu md-position-mode="left bottom">
-          <md-button ng-click="$mdOpenMenu()">
-            <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
-              <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
-              <span class="pl-8" flex>Options</span>          
-            </div>
-          </md-button>
+      <authorization data-feature="project" data-action="manage_functional">
+        <md-menu-bar>
+          <md-menu md-position-mode="left bottom">
+            <md-button ng-click="$mdOpenMenu()">
+              <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
+                <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
+                <span class="pl-8" flex>Options</span>          
+              </div>
+            </md-button>
 
-          <md-menu-content width="3">
-            <md-menu-item class="md-indent" ng-if="dataId">
-              <md-icon md-font-icon="icon-pencil"></md-icon>
-              <md-button ng-click="rename($event)">Re-Name</md-button>
-            </md-menu-item>
-            <md-menu-item class="md-indent">
-              <md-icon md-font-icon="icon-upload"></md-icon>
-              <md-button ngf-select="addNewFile($files)" accept=".csv"  multiple="false">Upload From Local (CSV)</md-button>
-            </md-menu-item>
-          </md-menu-content>
+            <md-menu-content width="3">
+              <md-menu-item class="md-indent" ng-if="dataId">
+                <md-icon md-font-icon="icon-pencil"></md-icon>
+                <md-button ng-click="rename($event)">Re-Name</md-button>
+              </md-menu-item>
+              <md-menu-item class="md-indent">
+                <md-icon md-font-icon="icon-upload"></md-icon>
+                <md-button ngf-select="addNewFile($files)" accept=".csv"  multiple="false">Upload From Local (CSV)</md-button>
+              </md-menu-item>
+            </md-menu-content>
 
-        </md-menu>
-      </md-menu-bar> 
+          </md-menu>
+        </md-menu-bar> 
+      </authorization>
 
     </div>
   </div>

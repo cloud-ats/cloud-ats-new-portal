@@ -21,8 +21,10 @@
 
 </div>
 
-<div class="header-action" layout="row" layout-align="start center">
-  <md-button ng-click="addNewDataDriven($event)" class="md-raised md-primary white-fg" aria-label="Create New Data Driven" flex>
-    Create New Data Driven
-  </md-button> 
-</div>
+<authorization data-feature="project" data-action="manage_functional">
+  <div class="header-action" layout="row" layout-align="start center">
+    <md-button ng-click="addNewDataDriven($event)" class="md-raised md-primary white-fg" aria-label="Create New Data Driven" flex>
+      Create New Data Driven
+    </md-button> 
+  </div>
+</authorization>

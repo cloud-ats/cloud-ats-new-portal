@@ -5,8 +5,10 @@
 			<div class="md-title mb-32 padding-left-20 padding-top-40" flex="40">Test Result</div>
 			<div flex="60" layout-align="center">
 				<a class="btn-border-line btnViewLog" ng-click="showlogJob()">{{getWord('View Log')}}</a>
+				<authorization data-feature="project" data-action="manage_performance">
 				<a class="btn-border-line btnViewLog" ng-if="project.watchUrl && project.status === 'RUNNING'" href="{{project.watchUrl}}">{{getWord('Watch')}}</a>
 				<a class="btn-border-line btn-danger" ng-if="project.status === 'RUNNING' && project.isBuilding" ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
+				</authorization>
 			</div> 
 		</div>
 		<div class="ms-responsive-table-wrapper">

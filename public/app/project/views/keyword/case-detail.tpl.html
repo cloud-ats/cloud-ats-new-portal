@@ -24,33 +24,35 @@
 
     <span flex></span>
 
-    <md-button class="animate-slide-down" ng-click="save()" ng-show="hasChanged">
-      <div layout="row" layout-align="start center" class="md-primary-fg">
-        <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
-        <span class="pl-8" flex>Save</span>
-      </div>
-    </md-button>
+    <authorization data-feature="project" data-action="manage_functional">
+      <md-button class="animate-slide-down" ng-click="save()" ng-show="hasChanged">
+        <div layout="row" layout-align="start center" class="md-primary-fg">
+          <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
+          <span class="pl-8" flex>Save</span>
+        </div>
+      </md-button>
 
-    <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
-      <div layout="row" layout-align="start center" class="grey-700-fg">
-        <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
-        <span class="pl-8" flex>Cancel</span>
-      </div>
-    </md-button>
+      <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
+        <div layout="row" layout-align="start center" class="grey-700-fg">
+          <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
+          <span class="pl-8" flex>Cancel</span>
+        </div>
+      </md-button>
+    
+      <md-button ng-click="group($event)">
+        <div layout="row" layout-align="start center" class="md-primary-fg md-hue-2">
+          <md-icon md-font-icon="icon-group" aria-hidden="true" class="md-primary-fg md-hue-2"></md-icon>
+          <span class="pl-8" flex>Group Keywords</span>          
+        </div>
+      </md-button>
 
-    <md-button ng-click="group($event)">
-      <div layout="row" layout-align="start center" class="md-primary-fg md-hue-2">
-        <md-icon md-font-icon="icon-group" aria-hidden="true" class="md-primary-fg md-hue-2"></md-icon>
-        <span class="pl-8" flex>Group Keywords</span>          
-      </div>
-    </md-button>
-
-    <md-button ng-click="setting($event)">
-      <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
-        <md-icon md-font-icon="icon-pencil" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
-        <span class="pl-8" flex>Rename</span>          
-      </div>
-    </md-button>
+      <md-button ng-click="setting($event)">
+        <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
+          <md-icon md-font-icon="icon-pencil" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
+          <span class="pl-8" flex>Rename</span>          
+        </div>
+      </md-button>
+    </authorization>
   </div>
   <!-- End breadcrumbs -->
 

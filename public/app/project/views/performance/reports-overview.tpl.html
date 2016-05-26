@@ -28,15 +28,16 @@
        <a class='btn-border-line' 
   		 ng-click="viewLog($event)">{{getWord('View Log')}}</a>
     </div>
-
-		<div layout="column" layout flex="10" layout-align="center center" ng-if="project.status==='READY' && project.lastScripts && project.totalScripts">
-      <a class='btn-border-line' 
-		 	ng-click="runLastScripts()">{{getWord('Run')}}</a>
-		</div>
-	 	<div layout="column" layout layout-align="center center" flex="10" ng-if="project.isBuilding">
-	    <a class='btn-border-line btn-danger' 
-		 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
-	  </div>
+    <authorization data-feature="project" data-action="manage_performance">
+  		<div layout="column" layout flex="10" layout-align="center center" ng-if="project.status==='READY' && project.lastScripts && project.totalScripts">
+        <a class='btn-border-line' 
+  		 	ng-click="runLastScripts()">{{getWord('Run')}}</a>
+  		</div>
+  	 	<div layout="column" layout layout-align="center center" flex="10" ng-if="project.isBuilding">
+  	    <a class='btn-border-line btn-danger' 
+  		 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
+  	  </div>
+    </authorization>
   </div>
 	<div class="simple-table-container md-whiteframe-4dp" perfect-scrollbar>
 		<div class="table-title">Performance Report</div>

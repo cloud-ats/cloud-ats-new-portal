@@ -37,17 +37,19 @@
 
           <md-divider></md-divider>
 
-          <div layout="row" layout-align="start center">
-            <md-button class="md-icon-button" aria-label="Clone this case" ng-click="clone($event, case._id, case.name)">
-              <md-tooltip>Clone this case</md-tooltip>
-              <md-icon class="s16 deep-orange-fg" md-font-icon="icon-content-duplicate" aria-hidden="true"></md-icon>
-            </md-button>
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="Delete this case" ng-click="delete($event, case._id)">
-              <md-tooltip>Delete</md-tooltip>
-              <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
-            </md-button>
-          </div>
+          <authorization data-feature="project" data-action="manage_functional">
+            <div layout="row" layout-align="start center">
+              <md-button class="md-icon-button" aria-label="Clone this case" ng-click="clone($event, case._id, case.name)">
+                <md-tooltip>Clone this case</md-tooltip>
+                <md-icon class="s16 deep-orange-fg" md-font-icon="icon-content-duplicate" aria-hidden="true"></md-icon>
+              </md-button>
+              <span flex></span>
+              <md-button class="md-icon-button" aria-label="Delete this case" ng-click="delete($event, case._id)">
+                <md-tooltip>Delete</md-tooltip>
+                <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
+              </md-button>
+            </div>
+          </authorization>
           
         </div>
       </div>

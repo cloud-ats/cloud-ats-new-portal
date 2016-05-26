@@ -22,21 +22,22 @@
     </div>
 
     <span flex></span>
+    <authorization data-feature="project" data-action="manage_functional">
+      <md-button class="animate-slide-down" ng-click="save()" ng-show="hasChanged">
+        <div layout="row" layout-align="start center" class="md-primary-fg">
+          <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
+          <span class="pl-8" flex>Save</span>
+        </div>
+      </md-button>
 
-    <md-button class="animate-slide-down" ng-click="save()" ng-show="hasChanged">
-      <div layout="row" layout-align="start center" class="md-primary-fg">
-        <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
-        <span class="pl-8" flex>Save</span>
-      </div>
-    </md-button>
-
-    <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
-      <div layout="row" layout-align="start center" class="grey-700-fg">
-        <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
-        <span class="pl-8" flex>Cancel</span>
-      </div>
-    </md-button>
-
+      <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
+        <div layout="row" layout-align="start center" class="grey-700-fg">
+          <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
+          <span class="pl-8" flex>Cancel</span>
+        </div>
+      </md-button>
+    </authorization>
+    
     <md-button ng-click="setting($event)">
       <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
         <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>

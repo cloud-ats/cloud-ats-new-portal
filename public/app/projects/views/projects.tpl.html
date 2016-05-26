@@ -61,10 +61,12 @@
           <md-divider></md-divider>
 
           <div layout="row" layout-align="start center">
-            <md-button class="md-icon-button" aria-label="Clone this project" ng-click="clone(project._id, $event, project.name)">
-              <md-tooltip>Clone this project</md-tooltip>
-              <md-icon class="s16 deep-orange-fg" md-font-icon="icon-content-duplicate" aria-hidden="true"></md-icon>
-            </md-button>
+            <authorization data-feature="space" data-action="manage_projects"> 
+              <md-button class="md-icon-button" aria-label="Clone this project" ng-click="clone(project._id, $event, project.name)">
+                <md-tooltip>Clone this project</md-tooltip>
+                <md-icon class="s16 deep-orange-fg" md-font-icon="icon-content-duplicate" aria-hidden="true"></md-icon>
+              </md-button>
+            </authorization>
             <span flex></span>
             <md-button class="md-icon-button action-icon" aria-label="Pin to dashboard">
               <md-tooltip>Pin to dashboard</md-tooltip>

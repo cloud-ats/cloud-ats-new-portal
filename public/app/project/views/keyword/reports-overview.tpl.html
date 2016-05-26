@@ -33,18 +33,20 @@
   		 ng-click="viewLog($event)">{{getWord('View Log')}}</a>
     </div>
 
-    <div layout="column" layout layout-align="center center" flex="10" ng-if="project.watchUrl && project.status === 'RUNNING'">
-       <a class='btn-border-line' 
-  		 href="{{project.watchUrl}}">{{getWord('Watch')}}</a>
-    </div>
-		<div layout="column" layout flex="10" layout-align="center center" ng-if="project.status==='READY' && project.lastSuites && project.totalSuites">
-      <a class='btn-border-line' 
-		 	ng-click="runLastSuites()">{{getWord('Run')}}</a>
-		</div>
-	 	<div layout="column" layout layout-align="center center" flex="10" ng-if="project.isBuilding">
-	    <a class='btn-border-line btn-danger' 
-		 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
-	  </div>
+    <authorization data-feature="project" data-action="manage_functional" layout="row">
+      <div layout layout-align="center center" ng-if="project.watchUrl && project.status === 'RUNNING'">
+         <a class='btn-border-line' 
+    		 href="{{project.watchUrl}}">{{getWord('Watch')}}</a>
+      </div>
+  		<div layout layout-align="center center" ng-if="project.status==='READY' && project.lastSuites && project.totalSuites">
+        <a class='btn-border-line' 
+  		 	ng-click="runLastSuites()">{{getWord('Run')}}</a>
+  		</div>
+  	 	<div layout layout-align="center center" ng-if="project.isBuilding">
+  	    <a class='btn-border-line btn-danger' 
+  		 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
+  	  </div>
+    </authorization>
   </div>
 
 	<div class="simple-table-container md-whiteframe-4dp" perfect-scrollbar>

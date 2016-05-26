@@ -37,13 +37,15 @@
 
           <md-divider></md-divider>
 
-          <div layout="row" layout-align="start center">
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="Delete this custom" ng-click="delete($event, custom._id)">
-              <md-tooltip>Delete</md-tooltip>
-              <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
-            </md-button>
-          </div>
+          <authorization data-feature="project" data-action="manage_functional">
+            <div layout="row" layout-align="start center">
+              <span flex></span>
+              <md-button class="md-icon-button" aria-label="Delete this custom" ng-click="delete($event, custom._id)">
+                <md-tooltip>Delete</md-tooltip>
+                <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
+              </md-button>
+            </div>
+          </authorization>
           
         </div>
       </div>

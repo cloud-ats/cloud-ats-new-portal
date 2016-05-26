@@ -39,58 +39,59 @@
     </md-button>
 
     <div class="border-left" layout="row" layout-align="start center">
-      <md-button class="md-primary" ng-click="addRow()" ng-disabled="sharedData.dataQueryText">
-        <div layout="row" layout-align="start center">
-          <span class="pl-8" flex>Add Row</span>          
-        </div>
-      </md-button>
-      <md-button class="md-warn" ng-click="deleteRow()" ng-if="selected.length">
-        <div layout="row" layout-align="start center">
-          <span class="pl-8" flex>Delete Row</span>        
-        </div>
-      </md-button>
-      <md-button class="md-primary" 
-        ng-click="create($event)" 
-        ng-if="!dataId"
-        ng-disabled="!validated">
+      <authorization data-feature="project" data-action="manage_functional">
+        <md-button class="md-primary" ng-click="addRow()" ng-disabled="sharedData.dataQueryText">
+          <div layout="row" layout-align="start center">
+            <span class="pl-8" flex>Add Row</span>          
+          </div>
+        </md-button>
+        <md-button class="md-warn" ng-click="deleteRow()" ng-if="selected.length">
+          <div layout="row" layout-align="start center">
+            <span class="pl-8" flex>Delete Row</span>        
+          </div>
+        </md-button>
+        <md-button class="md-primary" 
+          ng-click="create($event)" 
+          ng-if="!dataId"
+          ng-disabled="!validated">
 
-        <div layout="row" layout-align="start center">
-          <md-icon md-font-icon="icon-plus" aria-hidden="true"></md-icon>
-          <span class="pl-8" flex>Create</span>          
-        </div>
-      </md-button>
+          <div layout="row" layout-align="start center">
+            <md-icon md-font-icon="icon-plus" aria-hidden="true"></md-icon>
+            <span class="pl-8" flex>Create</span>          
+          </div>
+        </md-button>
 
-      <md-menu-bar>
-        <md-menu md-position-mode="left bottom">
-          <md-button ng-click="$mdOpenMenu()">
-            <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
-              <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
-              <span class="pl-8" flex>Options</span>          
-            </div>
-          </md-button>
+        <md-menu-bar>
+          <md-menu md-position-mode="left bottom">
+            <md-button ng-click="$mdOpenMenu()">
+              <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
+                <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
+                <span class="pl-8" flex>Options</span>          
+              </div>
+            </md-button>
 
-          <md-menu-content width="3">
-            <md-menu-item class="md-indent" ng-if="dataId">
-              <md-icon md-font-icon="icon-auto-fix"></md-icon>
-              <md-button ng-click="renew()">Re-New</md-button>
-            </md-menu-item>
-            <md-menu-item class="md-indent" ng-if="dataId">
-              <md-icon md-font-icon="icon-pencil"></md-icon>
-              <md-button>Re-Name</md-button>
-            </md-menu-item>
-            <md-menu-item class="md-indent">
-              <md-icon md-font-icon="icon-format-list-bulleted"></md-icon>
-              <md-button ng-click="selectExistedData($event)">Select From Existed Data</md-button>
-            </md-menu-item>
-            <md-menu-item class="md-indent">
-              <md-icon md-font-icon="icon-upload"></md-icon>
-              <md-button ng-click="uploadFromLocal($event)">Upload From Local (CSV)</md-button>
-            </md-menu-item>
-          </md-menu-content>
+            <md-menu-content width="3">
+              <md-menu-item class="md-indent" ng-if="dataId">
+                <md-icon md-font-icon="icon-auto-fix"></md-icon>
+                <md-button ng-click="renew()">Re-New</md-button>
+              </md-menu-item>
+              <md-menu-item class="md-indent" ng-if="dataId">
+                <md-icon md-font-icon="icon-pencil"></md-icon>
+                <md-button>Re-Name</md-button>
+              </md-menu-item>
+              <md-menu-item class="md-indent">
+                <md-icon md-font-icon="icon-format-list-bulleted"></md-icon>
+                <md-button ng-click="selectExistedData($event)">Select From Existed Data</md-button>
+              </md-menu-item>
+              <md-menu-item class="md-indent">
+                <md-icon md-font-icon="icon-upload"></md-icon>
+                <md-button ng-click="uploadFromLocal($event)">Upload From Local (CSV)</md-button>
+              </md-menu-item>
+            </md-menu-content>
 
-        </md-menu>
-      </md-menu-bar> 
-
+          </md-menu>
+        </md-menu-bar> 
+      </authorization>
     </div>
   </div>
   <!-- End breadcrumbs -->

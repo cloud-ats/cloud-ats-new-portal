@@ -21,27 +21,28 @@
   </div>
 
   <span flex></span>
+  <authorization data-feature="project" data-action="manage_performance">
+    <md-button class="animate-slide-down" ng-click="update()">
+      <div layout="row" layout-align="start center" class="md-primary-fg">
+        <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
+        <span class="pl-8" flex>Update</span>
+      </div>
+    </md-button>
 
-  <md-button class="animate-slide-down" ng-click="update()">
-    <div layout="row" layout-align="start center" class="md-primary-fg">
-      <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
-      <span class="pl-8" flex>Update</span>
-    </div>
-  </md-button>
+    <md-button class="animate-slide-down" ng-click="close()">
+      <div layout="row" layout-align="start center" class="grey-700-fg">
+        <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
+        <span class="pl-8" flex>Close</span>
+      </div>
+    </md-button>
 
-  <md-button class="animate-slide-down" ng-click="close()">
-    <div layout="row" layout-align="start center" class="grey-700-fg">
-      <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
-      <span class="pl-8" flex>Close</span>
-    </div>
-  </md-button>
-
-  <md-button ng-click="setting($event)">
-    <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
-      <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
-      <span class="pl-8" flex>Settings</span>          
-    </div>
-  </md-button>
+    <md-button ng-click="setting($event)">
+      <div layout="row" layout-align="start center" class="md-warn-fg md-hue-2">
+        <md-icon md-font-icon="icon-cog" aria-hidden="true" class="md-warn-fg md-hue-2"></md-icon>
+        <span class="pl-8" flex>Settings</span>          
+      </div>
+    </md-button>
+  </authorization>
 </div>
 <!-- End breadcrumbs -->
 
@@ -127,10 +128,12 @@
                       <span class="white-fg">CSV Data List</span>
                     </h2>
                     <span flex></span>
-                    <md-button class="md-icon-button" ng-click="addNewData($event)">
-                      <md-tooltip md-autohide>Upload New Data</md-tooltip>
-                      <md-icon md-font-icon="icon-upload" class="white-fg"></md-icon>
-                    </md-button>
+                    <authorization data-feature="project" data-action="manage_performance">
+                      <md-button class="md-icon-button" ng-click="addNewData($event)">
+                        <md-tooltip md-autohide>Upload New Data</md-tooltip>
+                        <md-icon md-font-icon="icon-upload" class="white-fg"></md-icon>
+                      </md-button>
+                    </authorization>
                     <input type="file" accept=".csv" ng-model="newFile" onchange="angular.element(this).scope().addNewFile(this)" multiple="true" style="display: none;">
                   </div>
                 </md-toolbar>

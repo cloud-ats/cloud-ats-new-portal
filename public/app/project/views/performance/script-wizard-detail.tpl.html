@@ -33,13 +33,14 @@
       <span class="pl-8" flex>New Sampler</span>
     </div>
   </md-button>
-
-  <md-button class="animate-slide-down" ng-click="updateScript()" ng-show="hasChanged">
-    <div layout="row" layout-align="start center" class="md-primary-fg">
-      <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
-      <span class="pl-8" flex>Update</span>
-    </div>
-  </md-button>
+  <authorization data-feature="project" data-action="manage_performance">
+    <md-button class="animate-slide-down" ng-click="updateScript()" ng-show="hasChanged">
+      <div layout="row" layout-align="start center" class="md-primary-fg">
+        <md-icon md-font-icon="icon-floppy" aria-hidden="true" class="md-primary-fg"></md-icon>
+        <span class="pl-8" flex>Update</span>
+      </div>
+    </md-button>
+  </authorization>
 </div>
 <!-- End breadcrumbs -->
 

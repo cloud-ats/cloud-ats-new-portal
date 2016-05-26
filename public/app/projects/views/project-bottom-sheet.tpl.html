@@ -84,14 +84,16 @@
       </div>
     </div> -->
     <div class="column p-16" layout-align="start center" flex="{{flex}}">
-      <md-button class="action-icon" aria-label="Destroy" ng-click="showDeleteProject($event)">
-        <md-icon class="s38 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
-      </md-button>
-      <div class="text-center ph-16" layout="row" layout-align="start center"
-      ng-controller="ProjectsCtrl">
-        <md-icon class="s16" md-font-icon="icon-lock" ></md-icon>
-        <a class="md-primary-fg" href-void flex ng-click="showDeleteProject($event)">Destroy</a>          
-      </div>
+      <authorization data-feature="space" data-action="manage_projects">  
+        <md-button class="action-icon" aria-label="Destroy" ng-click="showDeleteProject($event)">
+          <md-icon class="s38 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
+        </md-button>
+        <div class="text-center ph-16" layout="row" layout-align="start center"
+        ng-controller="ProjectsCtrl">
+          <md-icon class="s16" md-font-icon="icon-lock" ></md-icon>
+          <a class="md-primary-fg" href-void flex ng-click="showDeleteProject($event)">Destroy</a>          
+        </div>
+      </authorization>
     </div>
      <!--  </md-list-item>
         

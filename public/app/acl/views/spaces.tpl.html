@@ -11,11 +11,11 @@
         </div>
       	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="space in spaces track by $index" ng-click="selectSpace(space)"  ng-class="{active: currentSpace._id == space._id}">
           	<span flex>{{space.name}}</span>
-          	<a class="md-icon-button" ng-click="editSpace($event)" ng-show="space.name !== 'Public' && currentSpace._id == space._id">
+          	<a class="md-icon-button" ng-click="editSpace($event)" ng-show="currentSpace._id == space._id">
           		<md-tooltip>Edit Space</md-tooltip>
           		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
             </a>
-          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="space.name !== 'Public' && currentSpace._id == space._id">
+          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="currentSpace._id == space._id">
           		<md-tooltip>Delete Space</md-tooltip>
           		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
             </a>

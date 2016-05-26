@@ -22,14 +22,16 @@
 
 	</div>
 
-	<div class="header-action" layout="row" layout-align="start center">
-	  <md-button class="md-raised md-primary white-fg" aria-label="Upload Selenium" flex ng-click="showUploadSeleniumProject($event)">
-	  	<md-icon md-font-icon="icon-upload" class="white-fg"></md-icon>
-	    Upload Selenium
-	  </md-button> 
-	</div>
+	<<authorization data-feature="project" data-action="manage_performance">
+		<div class="header-action" layout="row" layout-align="start center">
+		  <md-button class="md-raised md-primary white-fg" aria-label="Upload Selenium" flex ng-click="showUploadSeleniumProject($event)">
+		  	<md-icon md-font-icon="icon-upload" class="white-fg"></md-icon>
+		    Upload Selenium
+		  </md-button> 
+		</div>
 
-	<div class="header-action" layout="row" layout-align="start center" >
-	  <md-button class="md-raised md-accent" flex ng-click="showExecutionSeleniumUpload($event)">Excecution</md-button>      
-	</div>   
+		<div class="header-action" layout="row" layout-align="start center" >
+		  <md-button class="md-raised md-accent" flex ng-click="showExecutionSeleniumUpload($event)">Excecution</md-button>      
+		</div> 
+	</authorization>  
 </div>

@@ -3,6 +3,8 @@
   <span class="pl-8 md-subhead" flex>Performance - Reports</span>
 </div>
 
-<div class="header-action" layout="row" layout-align="start center" ng-controller="ExecutionPerfCtrl">
-  <md-button class="md-raised md-accent" flex ng-click="showExecutionPerformance($event)">Excecution</md-button>      
-</div>
+<authorization data-feature="project" data-action="manage_performance">
+  <div class="header-action" layout="row" layout-align="start center" ng-controller="ExecutionPerfCtrl">
+    <md-button class="md-raised md-accent" flex ng-click="showExecutionPerformance($event)">Excecution</md-button>      
+  </div>
+</authorization>
