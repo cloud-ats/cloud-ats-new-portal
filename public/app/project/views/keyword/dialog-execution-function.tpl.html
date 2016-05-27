@@ -212,8 +212,8 @@
               <button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Next" ng-disabled="currentStep === 4 || checkSuiteSelected || radioValue" ng-click="nextStepExecution()">
                 <span class="ng-scope">Next</span>
               </button>
-              <button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Next" ng-disabled="currentStep != 4">
-                <span class="ng-scope" ng-click="run()">RUN</span>
+              <button  ng-click="run()" class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Next" ng-disabled="currentStep != 4">
+                <span class="ng-scope">RUN</span>
               </button>
             </div>
     </md-dialog-actions>
