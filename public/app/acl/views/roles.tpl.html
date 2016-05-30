@@ -56,7 +56,7 @@
             <div ng-message="required">Role Name Required</div>
           </div>
         </md-input-container>
-        <md-input-container>
+        <md-input-container ng-show="checkCreate">
           <label>Choose Space</label>
           <md-select name="spaceName" ng-model="currentRole.space._id" required>
             <md-option value="*" ng-show="currentRole.name == root">All spaces</md-option>
@@ -68,18 +68,7 @@
             <div ng-message="required">Choose Space Required</div>
           </div>
         </md-input-container>
-        <!-- <md-input-container>
-          <label>Choose Project</label>
-          <md-select name="projectName" ng-model="currentRole.project._id" required>
-            <md-option value="*" ng-show="currentRole.name == root">All Projects</md-option>
-            <md-option ng-repeat="projectChoose in listProjects" value="{{projectChoose._id}}">
-              {{projectChoose.name}}
-            </md-option>
-          </md-select>
-          <div class="errors" ng-messages="roleForm.spaceName.$error" >
-            <div ng-message="required">Choose Space Required</div>
-          </div>
-        </md-input-container> -->
+        <span ng-show="!checkCreate">Space: {{currentRole.space.name}}</span>
         <span flex></span>
         <md-button class="animate-slide-down" ng-click="clickSave()" ng-disabled="roleForm.$invalid">
           <div layout="row" layout-align="start center" class="md-primary-fg">

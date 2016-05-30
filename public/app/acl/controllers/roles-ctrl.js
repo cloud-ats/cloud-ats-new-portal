@@ -25,7 +25,7 @@ define(['acl/module', 'lodash'], function (module, _) {
           view_performance: false
         }
       }
-
+      $scope.checkCreate = false;
       $scope.roles = [];
       $scope.listSpaces = [];
       $scope.listprojects = [];
@@ -70,6 +70,7 @@ define(['acl/module', 'lodash'], function (module, _) {
       $scope.clickNew = function() {
         $scope.currentRole = undefined ;
         $scope.edit = true;
+        $scope.checkCreate = true;
         var permTemplate = angular.copy($scope.permTemplate);
         var role = {
           name: undefined,
@@ -186,12 +187,14 @@ define(['acl/module', 'lodash'], function (module, _) {
 			};
 			$scope.editRole = function(ev){
 				$scope.edit = true;
+        $scope.checkCreate = false;
 				ev.stopPropagation();
 			};
 			$scope.clickCancel = function(){
 				$scope.roles = $scope.originRoles ;
 				$scope.currentRole = $scope.roles[0];
 				$scope.edit = false;
+        $scope.checkCreate = false;
 			};
 
 	}]);

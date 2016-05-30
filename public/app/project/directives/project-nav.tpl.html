@@ -8,56 +8,59 @@
     </div>
   </li>
   <!-- Start keyword items -->
-  <li id="keyword-menu" class="ms-navigation-node has-children collapsed">
-    <div class="ms-navigation-item" layout="row">
-      <a class="ms-navigation-button" ng-click="expand($event)">
-        <i class="icon s16 icon-share-variant black-fg"></i>
-        <span class="title black-fg" flex>Functional</span>
-        <i class="icon-chevron-right s16 ng-scope black-fg arrow"></i>
-      </a>
-    </div>
+  <authorization data-feature="project" data-action="view_functional">
+    <li id="keyword-menu" class="ms-navigation-node has-children collapsed">
+      <div class="ms-navigation-item" layout="row">
+        <a class="ms-navigation-button" ng-click="expand($event)">
+          <i class="icon s16 icon-share-variant black-fg"></i>
+          <span class="title black-fg" flex>Functional</span>
+          <i class="icon-chevron-right s16 ng-scope black-fg arrow"></i>
+        </a>
+      </div>
 
-    <ul>
-      <li class="ms-navigation-node">
-        <div class="ms-navigation-item" layout="row">
-          <a data-state="app.project.keyword-reports" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-reports'}" ng-click="active($event)">
-            <span class="title black-fg" flex>Reports</span>
-          </a>
-        </div>
-      </li>
-      <li class="ms-navigation-node">
-        <div class="ms-navigation-item" layout="row">
-          <a data-state="app.project.keyword-cases" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-cases'}" ng-click="active($event)">
-            <span class="title black-fg" flex>Cases</span>
-          </a>
-        </div>
-      </li>
-      <li class="ms-navigation-node">
-        <div class="ms-navigation-item" layout="row">
-          <a data-state="app.project.keyword-customs" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-customs'}" ng-click="active($event)">
-            <span class="title black-fg" flex>Group keywords</span>
-          </a>
-        </div>
-      </li>
-      <li class="ms-navigation-node">
-        <div class="ms-navigation-item" layout="row">
-          <a data-state="app.project.keyword-suites" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-suites'}" ng-click="active($event)">
-            <span class="title black-fg" flex>Suites</span>
-          </a>
-        </div>
-      </li>
-      <li class="ms-navigation-node">
-        <div class="ms-navigation-item" layout="row">
-          <a data-state="app.project.keyword-data" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-data'}" ng-click="active($event)">
-            <span class="title black-fg" flex>Data Driven</span>
-          </a>
-        </div>
-      </li>
-    </ul>
-  </li>
+      <ul>
+        <li class="ms-navigation-node">
+          <div class="ms-navigation-item" layout="row">
+            <a data-state="app.project.keyword-reports" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-reports'}" ng-click="active($event)">
+              <span class="title black-fg" flex>Reports</span>
+            </a>
+          </div>
+        </li>
+        <li class="ms-navigation-node">
+          <div class="ms-navigation-item" layout="row">
+            <a data-state="app.project.keyword-cases" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-cases'}" ng-click="active($event)">
+              <span class="title black-fg" flex>Cases</span>
+            </a>
+          </div>
+        </li>
+        <li class="ms-navigation-node">
+          <div class="ms-navigation-item" layout="row">
+            <a data-state="app.project.keyword-customs" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-customs'}" ng-click="active($event)">
+              <span class="title black-fg" flex>Group keywords</span>
+            </a>
+          </div>
+        </li>
+        <li class="ms-navigation-node">
+          <div class="ms-navigation-item" layout="row">
+            <a data-state="app.project.keyword-suites" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-suites'}" ng-click="active($event)">
+              <span class="title black-fg" flex>Suites</span>
+            </a>
+          </div>
+        </li>
+        <li class="ms-navigation-node">
+          <div class="ms-navigation-item" layout="row">
+            <a data-state="app.project.keyword-data" class="ms-navigation-button" ng-class="{active: state.current.name == 'app.project.keyword-data'}" ng-click="active($event)">
+              <span class="title black-fg" flex>Data Driven</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </authorization>
   <!-- End keyword items -->
 
   <!-- Start performance items -->
+  <authorization data-feature="project" data-action="view_performance">
   <li id="performance-menu" class="ms-navigation-node has-children collapsed">
     <div class="ms-navigation-item" layout="row">
       <a class="ms-navigation-button" ng-click="expand($event)">
@@ -84,6 +87,7 @@
       </li>
     </ul>
   </li>
+  </authorization>
   <!-- End performance items -->
 
   <li class="ms-navigation-node">
