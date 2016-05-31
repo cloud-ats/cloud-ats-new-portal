@@ -33,10 +33,6 @@
   		 ng-click="viewLog($event)">{{getWord('View Log')}}</a>
     </div>
 
-    <div layout="column" layout layout-align="center center" flex="10" ng-if="project.watchUrl && project.status === 'RUNNING'">
-       <a class='btn-border-line' 
-  		 href="{{project.watchUrl}}">{{getWord('Watch')}}</a>
-    </div>
 		<div layout="column" layout flex="10" layout-align="center center" ng-if="project.status==='READY' && project.lastSuites && project.totalSuites">
       <a class='btn-border-line' 
 		 	ng-click="runLastSuites()">{{getWord('Run')}}</a>

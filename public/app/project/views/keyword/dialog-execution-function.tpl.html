@@ -72,57 +72,57 @@
               </ms-stepper-step>
 
               <ms-stepper-step id="2" step-title="'Choose Browsers'" class="ms-stepper-step" ng-show="currentStep === 2">
-                  <div class="md-padding">
-                    <md-radio-group ng-model="project.browser">
-                      <div layout="column">
-                        <div layout="row">
-                          <div layout='row'layout-padding layout-align="start center" >
-                          <md-radio-button value="firefox" aria-label="firefox">
-                            <img ng-src="/styles/img/browsers/firefox.jpg" width="30" height="30">
-                          </md-radio-button>
+                <div class="md-padding">
+                  <md-radio-group ng-model="project.browser">
+                    <div layout="column">
+                      <div layout="row">
+                        <div layout='row'layout-padding layout-align="start center" >
+                        <md-radio-button value="firefox" aria-label="firefox">
+                          <img ng-src="/styles/img/browsers/firefox.jpg" width="30" height="30">
+                        </md-radio-button>
                         </div>
                         <div layout='row' >
-                          <div layout="row" layout-align="start center">
+                          <div layout="row" layout-align="start center" ng-show="false">
                             <md-select ng-model="browserVersionFireFox" aria-label="firefoxVersion">
                               <md-option selected="selected">41.0.2</md-option>
                               <md-option>38.3.0esr</md-option>
                               <md-option>26.0</md-option>
                               <md-option>17.0.9esr</md-option>
                             </md-select>
-                         </div>
+                          </div>
                         </div>
+                      </div>
+                      <div layout="row">
+                        <div layout='row'layout-padding layout-align="start center" >
+                        <md-radio-button value="chrome" aria-label="chrome">
+                          <img ng-src="/styles/img/browsers/chrome.jpg" width="30" height="30">
+                        </md-radio-button>
+                      </div>
+                      <div layout='row' >
+                        <div layout="row" layout-align="start center" ng-show="false">
+                          <md-select ng-model="browserVersionChrome" aria-label="chromeVersion">
+                            <md-option selected="selected">46.0.2490.80</md-option>
+                          </md-select>
                         </div>
-                        <div layout="row">
-                          <div layout='row'layout-padding layout-align="start center" >
-                          <md-radio-button value="chrome" aria-label="chrome">
-                            <img ng-src="/styles/img/browsers/chrome.jpg" width="30" height="30">
-                          </md-radio-button>
-                        </div>
-                        <div layout='row' >
-                          <div layout="row" layout-align="start center">
-                            <md-select ng-model="browserVersionChrome" aria-label="chromeVersion">
-                              <md-option selected="selected">46.0.2490.80</md-option>
-                            </md-select>
-                         </div>
-                        </div>
-                        </div>
-                        <div layout="row">
-                          <div layout='row'layout-padding layout-align="start center" >
+                      </div>
+                      </div>
+                      <div layout="row">
+                        <div layout='row'layout-padding layout-align="start center" >
                           <md-radio-button value="ie" aria-label="ie">
                             <img ng-src="/styles/img/browsers/ie.png" width="30" height="30">
                           </md-radio-button>
                         </div>
                         <div layout='row' >
-                          <div layout="row" layout-align="start center">
+                          <div layout="row" layout-align="start center" ng-show="false">
                             <md-select ng-model="browserVersionIE" aria-label="ieVersion">
                               <md-option selected="selected">11</md-option>
                             </md-select>
-                         </div>
-                        </div>
+                          </div>
                         </div>
                       </div>
-                     </md-radio-group>
-                  </div>
+                    </div>
+                   </md-radio-group>
+                </div>
               </ms-stepper-step>
 
               <ms-stepper-step id="3" step-title="'Version Selenium'" class="ms-stepper-step" ng-show="currentStep === 3">
@@ -167,7 +167,7 @@
                   <div class="md-padding">
                     <md-radio-group ng-model="project.os">
                       <div layout="column">
-                        <div layout="row">
+                        <div layout="row" ng-hide="true">
                           <div layout='row'layout-padding layout-align="start center" >
                           <md-radio-button value="ubuntu" aria-label="ubuntu">
                             <img ng-src="/styles/img/ubuntu.png" width="30" height="30">
@@ -187,7 +187,7 @@
                         </div>
                         <div layout='row' >
                           <div layout="row" layout-align="start center">
-                            <span>Windows Server 2012</span>
+                            <span>Windows</span>
                          </div>
                         </div>
                         </div>
