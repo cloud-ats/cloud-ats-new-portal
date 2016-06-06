@@ -24,7 +24,7 @@
 
   <div class="search-box" layout="row" ng-if="checkTabSampler" layout-align="start center" flex>
 		<md-icon md-font-icon="icon-magnify" class="icon s24 mh-16" aria-hidden="true"></md-icon>
-		<input class="font-size-14" type="text" placeholder="Search for Sampler" aria-invalid="false" flex> 
+		<input class="font-size-14" type="text" placeholder="Search for Sampler" aria-invalid="false" flex ng-model="searchSampler"> 
  </div>
 
   <md-button class="animate-slide-down" ng-if="checkTabSampler" ng-click="showCreateNewSampler($event)">
@@ -115,7 +115,7 @@
       <md-tab label="Sampler">
         <md-content class="md-hue-1" >
 		    <div class="samplers-container" layout="row" layout-align="start start" flex="100" layout-wrap dnd-list="script.samplers" dnd-horizontal-list="true">
-		      <div ng-repeat="sampler in script.samplers" layout="row"  flex="20" class="case ms-card animate-slide-left" dnd-draggable="sampler"  
+		      <div ng-repeat="sampler in script.samplers | filter: searchSampler" layout="row"  flex="20" class="case ms-card animate-slide-left" dnd-draggable="sampler"  
 		        dnd-type="'containerType'" dnd-effect-allowed="move" 
 		        dnd-moved="script.samplers.splice($index, 1)"> 
 		      	<div class="ms-card-content-wrapper" layout="column" >

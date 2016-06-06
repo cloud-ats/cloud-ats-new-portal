@@ -21,19 +21,21 @@ define(['auth/module', 'lodash'], function(module, _) {
           }
         }
         
-        _.forEach(perms, function(perm) {
-          var foo = perm.split('@')[0];
+        for(var i = 0; i < perms.length; i++) {
+          var foo = perms[i].split('@')[0];
           var bar = foo.split(':');
           var cf = bar[0];
-          if ("*" === cf || feature === cf || feature === "*") hasFeature = true;
-          if (hasFeature) {
+          if ("*" === cf || feature === cf || feature === "*"){
+            hasFeature = true;
             var ca = bar[1];
             if ("*" === ca || action === ca || action === "*") {
               hasAction = true;
-              return;
+              break;
             }
+          } else {
+            hasFeature = false;
           }
-        });
+        }
 
         if (hasFeature && hasAction) {
           $(element[0]).show();

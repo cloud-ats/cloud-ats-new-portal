@@ -147,16 +147,17 @@ define(['acl/module', 'lodash'], function (module, _) {
 
       $scope.$watch('searchText', function(newText, oldText) {
         if (newText !== oldText) {
-        	if(newText){
-        		$scope.listUserSearch = [];
-        		TenantAdminService.search(newText, function (data, status) {
-        			angular.forEach(data, function(value, key) {
-				  			$scope.listUserSearch.push(value);
-							});
-						});
-        	}
+           $scope.listUserSearch = [];
+          if (newText) {
+            var results = $filter('filter')($scope.originUserSearch, {_id: $scope.searchText});
+            $scope.listUserSearch = results;
+          }
         }
       });
+
+      $scope.selectSpace = function(space){
+        $scope.originUserSearch = getSpace(space._id).listUser;
+      };
 
       $scope.addUser = function(user){
       	$scope.currentRole.listUser.push(user);
@@ -170,6 +171,7 @@ define(['acl/module', 'lodash'], function (module, _) {
 
 			$scope.selectRole = function(role){
 				$scope.currentRole = angular.copy(role);
+        $scope.originUserSearch = getSpace(role.space._id).listUser;
 				$scope.edit = false;
 			};
 			$scope.deleteRole = function(roleId){

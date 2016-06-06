@@ -8,15 +8,15 @@
         <div layout="row" layout-align="start center" class="p-16 filter" layout="row" flex="100">
         	<h3>List Roles</h3>
         	<span flex></span>
-        	<a class="md-icon-button"ng-click="clickNew()">
-        		<md-tooltip>New Role</md-tooltip>
-        		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
-          </a>
+          <authorization feature="*" action="grant_permission">
+          	<a class="md-icon-button"ng-click="clickNew()">
+          		<md-tooltip>New Role</md-tooltip>
+          		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
+            </a>
+          </authorization>
         </div>
       	<div ng-repeat="role in roles" layout="column"   
           ng-class="{active: currentRole._id == role._id}" ng-click="selectRole(role)">
-          
-          <authorization feature="*" action="grant_permisson" root-only="{{role.name == root}}">
             <div class="p-16" layout-align="start center" layout="row" ng-show="role._id">
             	<span>{{role.name}}</span>
               <span flex></span>
@@ -24,12 +24,13 @@
             		<md-tooltip>Edit Role</md-tooltip>
             		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
               </a>
-            	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole._id == role._id" ng-click="deleteRole(role._id)">
-            		<md-tooltip>Delete Role</md-tooltip>
-            		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
-              </a>
+              <authorization feature="*" action="grant_permission">
+              	<a class="md-icon-button" ng-show="role.name !== 'root' && currentRole._id == role._id" ng-click="deleteRole(role._id)">
+              		<md-tooltip>Delete Role</md-tooltip>
+              		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
+                </a>
+              </authorization>
             </div>
-          </authorization>
       	</div>  
       </md-content>
     </div>
@@ -45,7 +46,6 @@
       <div layout="row" ng-show="!edit" flex="100">
         <h3 flex="30">Role Name: {{currentRole.name}}</h3>
         <h3 flex="30">Space: {{currentRole.space.name ? currentRole.space.name : 'All Space'}}</h3>
-        <!-- <h3 flex="30">Space: {{currentRole.project.name ? currentRole.Project.name : 'All Projects'}}</h3> -->
       </div>
 
       <div flex="100" layout="row" ng-show="edit">
@@ -59,8 +59,7 @@
         <md-input-container ng-show="checkCreate">
           <label>Choose Space</label>
           <md-select name="spaceName" ng-model="currentRole.space._id" required>
-            <md-option value="*" ng-show="currentRole.name == root">All spaces</md-option>
-            <md-option ng-repeat="spaceChoose in listSpaces" value="{{spaceChoose._id}}">
+            <md-option ng-repeat="spaceChoose in listSpaces track by $index" value="{{spaceChoose._id}}" ng-click="selectSpace(spaceChoose)">
               {{spaceChoose.name}}
             </md-option>
           </md-select>
@@ -77,7 +76,7 @@
           </div>
         </md-button>
 
-        <md-button class="animate-slide-down" ng-click="clickCancel()" ng-disabled="roleForm.$invalid">
+        <md-button class="animate-slide-down" ng-click="clickCancel()">
           <div layout="row" layout-align="start center" class="grey-700-fg">
             <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
             <span class="pl-8" flex>Cancel</span>
@@ -87,33 +86,33 @@
 
       <div ng-repeat="(key, perm) in currentRole.permissions" flex="100">
         <div ng-repeat="(permKey, permValue) in perm">
-          <div class="table-title">Permission role on <span class="text-uppercase">{{permKey}}</span></div>
-          <div class="ms-responsive-table-wrapper">
-            
-            <table class="simple">
-            <thead>
-              <tr>
-                <th ng-repeat="(ruleKey, ruleValue) in permValue" ng-init="ruleLabel = normalize(ruleKey)" class="text-align-center">{{ruleLabel}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td ng-repeat="(ruleKey, ruleValue) in permValue" class="text-align-center" >
-                  <md-icon md-font-icon="icon-check" aria-hidden="true" 
-                    class="green-700-fg" ng-show="!edit && ruleValue">
-                  </md-icon>
-                  <md-icon md-font-icon="icon-cancel" aria-hidden="true" 
-                    class="red-700-fg" ng-show="!edit && !ruleValue">
-                  </md-icon>
-                  <md-checkbox aria-label="View Tenant" ng-show="edit"class="margin-bottom-0" 
-                    ng-model="currentRole.permissions[key][permKey][ruleKey]">
-                  </md-checkbox>
-                </td>
-              </tr>
-            </tbody>
-            </table>
-
-          </div>
+          <authorization feature="{{permKey}}" action="grant_permission">
+            <div class="table-title">Permission role on <span class="text-uppercase">{{permKey}}</span></div>
+            <div class="ms-responsive-table-wrapper">
+              <table class="simple">
+              <thead>
+                <tr>
+                  <th ng-repeat="(ruleKey, ruleValue) in permValue" ng-init="ruleLabel = normalize(ruleKey)" class="text-align-center">{{ruleLabel}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td ng-repeat="(ruleKey, ruleValue) in permValue" class="text-align-center" >
+                    <md-icon md-font-icon="icon-check" aria-hidden="true" 
+                      class="green-700-fg" ng-show="!edit && ruleValue">
+                    </md-icon>
+                    <md-icon md-font-icon="icon-cancel" aria-hidden="true" 
+                      class="red-700-fg" ng-show="!edit && !ruleValue">
+                    </md-icon>
+                    <md-checkbox aria-label="View Tenant" ng-show="edit"class="margin-bottom-0" 
+                      ng-model="currentRole.permissions[key][permKey][ruleKey]">
+                    </md-checkbox>
+                  </td>
+                </tr>
+              </tbody>
+              </table>
+            </div>
+          </authorization>
         </div>
       </div>
 

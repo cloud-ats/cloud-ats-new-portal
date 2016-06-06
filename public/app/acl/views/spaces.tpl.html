@@ -4,10 +4,12 @@
       <md-content perfect-scrollbar class="pt-8">
         <div layout="row" layout-align="start center" class="p-16 filter" layout="row" flex="100">
         	<span style="font-size: 22px;" flex="90">List Space</span>
-        	<a class="md-icon-button" flex="10" ng-click="clickNewSpace()">
+          <authorization data-root-only="true">
+          	<a class="md-icon-button" flex="10" ng-click="clickNewSpace()">
           		<md-tooltip>New Space</md-tooltip>
           		<md-icon md-font-icon="icon-plus" class="md-primary-fg"></md-icon>
             </a>
+          </authorization>
         </div>
       	<div class="p-16 border-bottom" layout="row" flex="100" ng-repeat="space in spaces track by $index" ng-click="selectSpace(space)"  ng-class="{active: currentSpace._id == space._id}">
           	<span flex>{{space.name}}</span>
@@ -15,10 +17,12 @@
           		<md-tooltip>Edit Space</md-tooltip>
           		<md-icon md-font-icon="icon-pencil" class="md-primary-fg"></md-icon>
             </a>
-          	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="currentSpace._id == space._id">
-          		<md-tooltip>Delete Space</md-tooltip>
-          		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
-            </a>
+            <authorization data-root-only="true">
+            	<a class="md-icon-button" ng-click="deleteSpace(space)" ng-show="currentSpace._id == space._id">
+            		<md-tooltip>Delete Space</md-tooltip>
+            		<md-icon md-font-icon="icon-delete" class="md-warn-fg"></md-icon>
+              </a>
+            </authorization>
       	</div>  
       </md-content>
     </div>
