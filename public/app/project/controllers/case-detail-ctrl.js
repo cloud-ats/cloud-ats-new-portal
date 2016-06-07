@@ -1,9 +1,9 @@
 define(['project/keyword-module', 'lodash'], function (module, _) {
 	'use strict';
 
-	module.registerController('CaseDetailCtrl', ['$mdSidenav', 'DataService', '$scope', 'KeywordService', 
+	module.registerController('CaseDetailCtrl', ['$mdSidenav', 'DataService','$cookies', 'Upload', '$scope', 'KeywordService', 
     'CaseService', '$state', '$stateParams', '$timeout','$mdDialog', '$mdToast', 'CustomKeywordService',
-    function ($mdSidenav, DataService, $scope, KeywordService, CaseService, $state, $stateParams, $timeout ,$mdDialog, $mdToast, CustomKeywordService) {
+    function ($mdSidenav, DataService, $cookies, Upload, $scope, KeywordService, CaseService, $state, $stateParams, $timeout ,$mdDialog, $mdToast, CustomKeywordService) {
 
     $scope.$parent.isSidenavOpen = false;
     $scope.$parent.isSidenavLockedOpen = false;
@@ -167,7 +167,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       }
     }
 
-    $scope.cancel = function () {
+    $scope.cancelCaseDetail = function () {
       $scope.caze.steps = angular.copy($scope.caze.originSteps);
     }
 
@@ -190,6 +190,44 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             $scope.hasChanged = false;
             break;
           default: break; 
+        }
+      });
+    }
+
+    $scope.uploadCase = function (ev) {
+      $mdDialog.show({
+        templateUrl: 'app/project/views/keyword/upload-case-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        scope: $scope,
+        preserveScope: true,
+        controller: function() {
+          $scope.cancel = function () {
+            $mdDialog.cancel();
+          };
+          $scope.addNewFile = function (file) {
+            $scope.caze.jsonFile = file;
+          };
+          $scope.submit = function () {
+            Upload.upload({
+              url: appConfig.RestEntry + '/api/v1/project/keyword/' + $scope.caze.project_id + '/upload/'+ $scope.caze._id,
+              data: {file: $scope.caze.jsonFile},
+              headers: {
+                'X-AUTH-TOKEN': $cookies.get('authToken'),
+                'Content-Type': undefined
+              }
+            }).then(function (resp) {
+              if(resp.status === 201){
+                $mdToast.show($mdToast.simple().position('top right').textContent('Upload Steps of Case Success!'));
+                $mdDialog.hide();
+                $scope.caze.steps = resp.data.steps;
+              } else {
+                $mdToast.show($mdToast.simple().position('top right').textContent('Upload Steps of Case Error!'));
+                $mdDialog.hide();
+              }
+            });
+          }
         }
       });
     }

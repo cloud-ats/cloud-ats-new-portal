@@ -1,0 +1,35 @@
+<md-dialog aria-label="Upload Case"  ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools md-primary-bg">
+        <span class="md-title text-nowrap">Create New Case</span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <form name="uploadForm">
+          <label>Using upload json file create steps of case</label>
+          <div layout="row" layout-align="start center">
+            <md-input-container>
+              <label>Json File</label>
+              <input type="text" name="dataFile" required ng-model="caze.jsonFile.name" ng-disabled="true">
+              <div ng-messages="uploadForm.dataFile.$error" role="alert" aria-live="assertive" >
+                <div ng-message="required">Json file is required</div>
+              </div>
+            </md-input-container>  
+            <md-button class="md-icon-button" style="margin-bottom: 10px;" ngf-select="addNewFile($file)" accept=".json"  multiple="false" aria-label="addFile">
+              <md-icon md-font-icon="icon-upload"></md-icon>
+            </md-button>
+          </div>
+        </form>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" >
+      <span flex></span>
+      <md-button class="md-primary" ng-click="submit()" ng-disabled="uploadForm.$invalid">
+       SUBMIT
+      </md-button>
+      <md-button class="md-primary" ng-click="cancel()" style="margin-right:20px;">
+        CANCEL
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>

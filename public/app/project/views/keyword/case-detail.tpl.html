@@ -31,14 +31,21 @@
       </div>
     </md-button>
 
-    <md-button class="animate-slide-down" ng-click="cancel()" ng-show="hasChanged">
+    <md-button class="animate-slide-down" ng-click="cancelCaseDetail()" ng-show="hasChanged">
       <div layout="row" layout-align="start center" class="grey-700-fg">
         <md-icon md-font-icon="icon-cancel" aria-hidden="true" class="grey-700-fg"></md-icon>
         <span class="pl-8" flex>Cancel</span>
       </div>
     </md-button>
 
-    <md-button ng-click="group($event)">
+    <md-button ng-click="uploadCase($event)" ng-show="!hasChanged">
+      <div layout="row" layout-align="start center" class="md-primary-fg md-hue-2">
+        <md-icon md-font-icon="icon-upload" aria-hidden="true" class="md-primary-fg md-hue-2"></md-icon>
+        <span class="pl-8" flex>Upload</span>          
+      </div>
+    </md-button>
+
+    <md-button ng-click="group($event)" ng-show="!hasChanged">
       <div layout="row" layout-align="start center" class="md-primary-fg md-hue-2">
         <md-icon md-font-icon="icon-group" aria-hidden="true" class="md-primary-fg md-hue-2"></md-icon>
         <span class="pl-8" flex>Group Keywords</span>          
