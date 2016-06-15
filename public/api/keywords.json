@@ -26,6 +26,13 @@
       },
       "description": "Click an element on the current page."
     },
+    "checkBoxElement": {
+      "params": {
+        "locator": "How to find the element to type into.",
+        "text": "The text to check click on checkbox."
+      },
+      "description": "click element is checkbox."
+    },
     "doubleClickElement": {
       "params": {
         "locator": "How to find the element to be clicked."
@@ -97,6 +104,14 @@
     }
   },
   "Misc": {
+    "loopor": {
+      "params": {
+        "times":"How to find the element to click on.",
+        "variables": "params for actions in loopor",
+        "actions": "steps in loopor"
+      },
+      "description": "loop steps"
+    },
     "addCookie": {
       "params": {
         "name": "The cookie's name.",

@@ -165,7 +165,7 @@
 
               <ms-stepper-step id="4" step-title="'Version OS'" class="ms-stepper-step" ng-show="currentStep === 4">
                   <div class="md-padding">
-                    <md-radio-group ng-model="project.os">
+                    <!-- <md-radio-group ng-model="project.os">
                       <div layout="column">
                         <div layout="row" ng-hide="true">
                           <div layout='row'layout-padding layout-align="start center" >
@@ -181,7 +181,7 @@
                         </div>
                         <div layout="row">
                           <div layout='row'layout-padding layout-align="start center" >
-                          <md-radio-button value="window" aria-label="window">
+                          <md-radio-button value="window" aria-label="window" ng-checked>
                             <img ng-src="/styles/img/window.jpg" width="30" height="30">
                           </md-radio-button>
                         </div>
@@ -192,7 +192,12 @@
                         </div>
                         </div>
                       </div>
-                     </md-radio-group>
+                     </md-radio-group> -->
+                     <div layout='row'layout-padding layout-align="start center" >
+                      <md-checkbox ng-model="project.os" aria-label="selenium" ng-disabled="true" ng-init="project.os=true">
+                        <img ng-src="/styles/img/window.jpg" width="30" height="30">
+                      </md-checkbox>
+                    </div>
                   </div>
               </ms-stepper-step>
               

@@ -1,12 +1,13 @@
 define(['project/keyword-module', 'lodash'], function (module, _) {
 	'use strict';
 
-	module.registerController('CaseDetailCtrl', ['$mdSidenav', 'DataService','$cookies', 'Upload', '$scope', 'KeywordService', 
+	module.registerController('CaseDetailCtrl', ['$filter','$mdSidenav', 'DataService','$cookies', 'Upload', '$scope', 'KeywordService', 
     'CaseService', '$state', '$stateParams', '$timeout','$mdDialog', '$mdToast', 'CustomKeywordService',
-    function ($mdSidenav, DataService, $cookies, Upload, $scope, KeywordService, CaseService, $state, $stateParams, $timeout ,$mdDialog, $mdToast, CustomKeywordService) {
+    function ($filter, $mdSidenav, DataService, $cookies, Upload, $scope, KeywordService, CaseService, $state, $stateParams, $timeout ,$mdDialog, $mdToast, CustomKeywordService) {
 
     $scope.$parent.isSidenavOpen = false;
     $scope.$parent.isSidenavLockedOpen = false;
+
 
     $scope.toggleProjectNavLeft = function() {
       $mdSidenav('project-nav-left').toggle();
@@ -15,6 +16,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 		$scope.projectId = $stateParams.id;
     $scope.cazeId = $stateParams.caseId;
     $scope.hasChanged = false;
+    $scope.listKeywords = [];
 
     $scope.types = [
       {value: 'id', text: 'id'},
@@ -39,12 +41,25 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       });
       return list;
     }
+    $scope.buildTextKeyword = function (step) {
+      var text = step.type + "(";
+      if(step.params){
+        _.forEach(step.params, function (value , key){
+        text = text + key ;
+        text = text + ",";
+      })
+      text = text.substring(0, text.length-1)
+      }
+      text = text + ")";
+      
+      return text ;
+    }
 
     var initData = function() {
       CaseService.get($scope.projectId, $scope.cazeId, function (data, status) {
         $scope.caze = data;
         $scope.caze.originSteps = angular.copy($scope.caze.steps);
-        $scope.params = buildParamList(data);
+        $scope.params = buildParamList(data.steps);
 
         var overview = {
           name: $scope.caze.project,
@@ -66,6 +81,19 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 
         $scope.breadcrumbs = [overview, cases, caze];
 
+
+        var listKeywordsInCase = [] ;
+        _.forEach($scope.caze.steps, function (step) {
+          if (step.actions) {
+            _.forEach(step.actions, function (action){
+              listKeywordsInCase.push(action);
+            });
+          } else {
+            listKeywordsInCase.push(step);
+          }
+          
+        });
+
         if ($scope.caze.data_driven) {
           var dataDriven = {
             name: '[Data Driven] ' + $scope.caze.data_driven.name,
@@ -77,7 +105,8 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             }
           }
           $scope.breadcrumbs.push(dataDriven);
-        } else if (buildParamList($scope.caze).length){
+        } else if (buildParamList(listKeywordsInCase).length){
+          $scope.params = buildParamList(listKeywordsInCase);
           var dataDriven = {
             name: '[Data Driven] Empty',
             state: 'app.project.keyword-cases.case.data',
@@ -118,6 +147,11 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 
     KeywordService.getKeywords(function(data) {
       $scope.keywords = data;
+      _.forEach(data, function(value, cat){
+        _.forEach(value, function(value, key){
+          $scope.listKeywords.push(value);
+        })
+      })
     });
 
     var detectChanged = function(newSteps, oldSteps) {
@@ -140,6 +174,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
                 return;
               }
             });
+
             if (changed) return true;
           }
         }
@@ -151,11 +186,20 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       
       if (step.isNew) {
         if (index >= $scope.caze.steps.length - 1) {
-          $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+          if(step.type == "loopor"){
+            $scope.clickToSteploopor(event, step, $scope.caze.steps.length - 1);
+          } else {
+            $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+          }
+          
         } else {
           $scope.caze.steps.splice(index, 1);
           $scope.caze.steps.push(step);
-          $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+          if(step.type == "loopor"){
+            $scope.clickToSteploopor(event, step, $scope.caze.steps.length - 1);
+          } else {
+            $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
+          }
         }
       }
       if (step.steps) {
@@ -175,9 +219,11 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       var caze = {
         _id: $scope.caze._id,
         name: $scope.caze.name,
-        steps: $scope.caze.steps
+        steps: $scope.caze.steps,
       };
-
+      if ($scope.caze.data_driven) {
+        caze.data_driven = $scope.caze.data_driven._id;
+      }
       CaseService.update($scope.caze.project_id, caze, function (data, status){
         switch (status) {
           case 200: 
@@ -268,8 +314,8 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 
     $scope.removeStep = function (index) {
       $scope.caze.steps.splice(index, 1);
-      $scope.params = buildParamList($scope.caze);
-    }
+      $scope.params = buildParamList($scope.caze.steps);
+    };
 
     $scope.clickToStep = function (ev, step, $index) {
       $scope.originCase = angular.copy($scope.caze);
@@ -285,7 +331,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         preserveScope: true,
         escapeToClose: false,
         controller: function() {
-
           $scope.title = step.type + " [" + ($index + 1) + "]";
 
           $scope.cancelDialog = function() {
@@ -296,13 +341,90 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             $scope.step.isNew = undefined;
             $scope.caze.steps[$index] = $scope.step;
             $mdDialog.cancel();
-            $scope.params = buildParamList($scope.caze);
+            $scope.params = buildParamList($scope.caze.steps);
           };
           $scope.remove = function() {
             $scope.caze.steps.splice($index, 1);
             $mdDialog.cancel();
-            $scope.params = buildParamList($scope.caze);
+            $scope.params = buildParamList($scope.caze.steps);
           }
+        }
+      })
+    };
+
+    $scope.clickToSteploopor = function (ev, step, $index) {
+      $mdDialog.show({
+          
+        templateUrl: 'app/project/views/keyword/step-loopor-form-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        scope: $scope,
+        preserveScope: true,
+        escapeToClose: false,
+        controller: function() {
+
+          $scope.stepLoopor = step ? step : {};
+          $scope.stepLoopor.actions = step.actions ? step.actions : [];
+          $scope.stepLoopor.variables = step.variables ? step.variables : [];
+          $scope.stepLoopor.params = step.params ? step.params : [];
+          $scope.stepLoopor.times = step.times ? step.times : 1;
+
+          $scope.title = step.type + " [" + ($index + 1) + "]";
+          console.log($scope.stepLoopor);
+
+          $scope.addNewStep = function (item) {
+            var step = {} ;
+            step.type = item.type;
+            step.params = [];
+            var keys = _.keys(item.params);
+            for (var i = 0; i < keys.length; i++) {
+              step.params[i] = keys[i];
+            }
+            $scope.stepLoopor.actions.push(step);
+          };
+
+          $scope.selectStepInLoopor = function (step) {
+            $scope.currentStep = step ;
+          };
+
+          $scope.addVariale = function (name) {
+            var variable = {"name":name}; 
+            $scope.stepLoopor.variables.push(variable);
+          }
+
+          $scope.removevariale = function (index) {
+             $scope.stepLoopor.variables.splice(index, 1);
+          }
+
+          $scope.removeStepInLoopor = function (index) {
+            $scope.stepLoopor.actions.splice(index, 1);
+            $scope.currentStep = $scope.stepLoopor.actions[0];
+          }
+
+          $scope.cancelDialog = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.submit = function() {
+            $scope.stepLoopor.isNew = undefined;
+            $scope.caze.steps[$index] = $scope.stepLoopor;
+            $mdDialog.cancel();
+          };
+
+          $scope.remove = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.$watch('searchKeyword', function(newText, oldText) {
+            if (newText !== oldText) {
+              if (newText) {
+                var results = $filter('filter')($scope.listKeywords, {type: $scope.searchKeyword});
+                $scope.listResultKey = results;
+              } else {
+                $scope.listResultKey = $scope.listKeywords;
+              }
+            }
+          });
         }
       })
     }
@@ -345,25 +467,37 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       })
     }
 
-    var buildParamList = function(caze) {
+    var buildParamList = function(steps) {
       var params = [];
-      _.forEach(caze.steps, function(step) {
+      _.forEach(steps, function(step) {
         _.forEach(step.params, function(param) {
           var val = step[param];
           if (val instanceof Object) {
             val = val.value;
+          } else if (val) {
+            val = val + "";
           }
-
-          var startIndex = val.indexOf('${');
-          var endIndex = val.lastIndexOf('}');
-          if (startIndex == 0 && endIndex == (val.length - 1)) {
-            var variable = val.substring(startIndex + 2, endIndex);
-            if (params.indexOf(variable) == -1) params.push(variable);
+          if (val) {
+            var startIndex = val.indexOf('${');
+            var endIndex = val.lastIndexOf('}');
+            if (startIndex == 0 && endIndex == (val.length - 1)) {
+              var variable = val.substring(startIndex + 2, endIndex);
+              if (params.indexOf(variable) == -1) params.push(variable);
+            }
           }
         });
       });
       return params;
     };
+
+    // var mockStep = {
+    //   isNew: true,
+    //   type: "loopor",
+    //   actions: [],
+    //   variables: []
+    // }
+
+    // $scope.dropCallBack(100, null, mockStep);
 
 	}]);
 })

@@ -80,14 +80,17 @@
         <!-- In case present build-in keyword -->
         <div class="ms-card-content-wrapper" layout="column" ng-if="!step.steps">
           <div layout="row" class="p-8">
-            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis">
+            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="!(step.type =='loopor')">
               {{step.type}}
             </a>  
+            <a href-void ng-click="clickToSteploopor($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="(step.type =='loopor')">
+              {{step.type}}
+            </a> 
           </div>
           <div layout="row" layout-wrap layout-align="start center" flex>
             <div class="pl-8 pb-8" ng-repeat="param in step.params" layout="row" flex="100" layout-align="start center">
               <div layout="row">
-                <span class="text-bold pr-8">{{param}}</span>
+                <span class="text-bold pr-4">{{param}}</span>
                 <span class="text-nowrap-ellipsis">
                   <md-tooltip>{{step[param]}}</md-tooltip>
                   {{step[param]}}
@@ -112,7 +115,7 @@
             <span class="text-bold pr-8">[Group]</span>
             <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis">
               {{step.name}}
-            </a>  
+            </a>
           </div>
           <div layout="row" class="p-8" flex>
             <span class="text-bold pr-8">Step(s)</span>

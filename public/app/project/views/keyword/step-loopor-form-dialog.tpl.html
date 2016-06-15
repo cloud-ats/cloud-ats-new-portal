@@ -1,0 +1,162 @@
+<md-dialog aria-label="loopor" class="fullscreen-dialog" ng-cloak >
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools md-primary-bg">
+      <span flex="95" class="md-title text-nowrap">{{title}}</span>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="p-0">
+    <div class="md-dialog-content" style="overflow: hidden;">
+      <md-tabs style="overflow: hidden;">
+        <md-tab label="Keyword in Loopor" style="overflow: hidden;">
+            
+          <div layout="row" layout-align="start center" class="pt-16" style="overflow: hidden;">
+            
+            <!-- Start step list-->
+            <div class="column" flex="25">
+              
+              <div layout="row" layout-align="start center" layout-wrap>
+                <md-button
+                  class="md-primary md-icon-button" aria-label="Add Keyword" 
+                  ng-click="addNewStep(selectedItem)" ng-show="selectedItem">
+                  <md-icon md-font-icon="icon-plus"></md-icon>
+                </md-button> 
+
+                <md-autocomplete
+                  md-selected-item="selectedItem"
+                  md-search-text="searchKeyword"
+                  md-items="item in listResultKey"
+                  md-item-text="buildTextKeyword(item)"
+                  md-min-length="0"
+                  placeholder="What is step name" flex>
+                  <md-item-template >
+                    <span md-highlight-text="searchKeyword" md-highlight-flags="^i">
+                      {{buildTextKeyword(item)}}
+                    </span> 
+                  </md-item-template>
+                  <md-not-found>
+                    No keywords matching {{searchKeyword}} were found.
+                  </md-not-found>
+                </md-autocomplete>
+              </div>
+
+              <div layout="column" class="pt-18">
+                <div 
+                ng-repeat = "step in stepLoopor.actions track by $index" 
+                ng-click="selectStepInLoopor(step)" 
+                ng-class="{active: currentStep === step}"
+                class="border-bottom step" layout="row">
+                  <span class="badge-order white-fg green-400-bg width-24 text-center">
+                    {{$index+1}}
+                  </span>
+                  <span class="text-bold pl-8">{{step.type}}</span>
+                  <span flex></span>
+                  <a href-void ng-click="removeStepInLoopor($index)">
+                    <md-tooltip>Remove</md-tooltip>
+                    <md-icon md-font-icon="s16 icon-close" class="md-warn-fg"></md-icon>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- End step list -->
+
+            <!-- Start step info -->
+            <div layout="row" flex="75" layout-align="start center" layout-wrap>
+              <form name="stepForm">
+                <div ng-repeat="param in currentStep.params">
+                  <md-input-container class="md-block"  ng-if="param !== 'locator'
+                   && param !== 'targetLocator'">
+                    <label>{{param}}</label>
+                    <input type="text" ng-model="currentStep[param]" name="param{{$index}}" required>
+                    <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                      <div ng-message="required"><span class="text-uppercase">{{param}}</span> is required</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container class="md-block" ng-if="param === 'locator' || param ==='targetLocator'">
+                    <label>{{param}} type</label>
+                    <md-select ng-model="currentStep[param].type" name="param{{$index}}" required>
+                      <md-option ng-repeat="type in types" value="{{type.value}}">
+                        {{type.value}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                      <div ng-message="required"><span class="text-uppercase">{{param}}</span> is required</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container class="md-block" ng-if="param === 'locator' || param ==='targetLocator'">
+                    <label>{{param}} value</label>
+                    <input type="text" ng-model="currentStep[param].value" name="param{{$index}}" required>
+                    <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                      <div ng-message="required"><span class="text-uppercase">{{param}}</span> value is required</div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </form>
+            </div>
+            <!-- End step info -->            
+          </div>
+
+
+            <!-- 
+-->
+        </md-tab>
+
+        <!-- Start loopor data -->  
+        <md-tab label="Data loopor">
+          <div layout="column">
+
+            <div layout="row">
+              <div flex layout layout-align="center center">
+                <span class="text-bold pl-22">Times of loopor</span>
+                <md-slider  min="1" max="50" flex class="md-accent" md-discrete ng-model="stepLoopor.times" step="1" aria-label="times">
+                </md-slider>
+              </div>
+                <md-input-container>
+                  <input type="number" min="1" max="1000" aria-label="times" ng-model="stepLoopor.times" class="text-center" flex>
+                </md-input-container>
+            </div>
+            
+            <span class="text-bold pl-22">List Variales Loopor</span>
+
+            <div layout="row" ng-repeat="var in stepLoopor.variables track by $index">
+              <span class="text-bold pl-16">{{var.name}}</span>
+              <span flex></span>
+              <a href-void ng-click="removevariale($index)">
+                <md-tooltip>Remove</md-tooltip>
+                <md-icon md-font-icon="s16 icon-close" class="md-warn-fg"></md-icon>
+              </a>
+            </div>
+            
+            <div layout="row">
+              <md-input-container>
+                  <input type="text" aria-label="variable" ng-model="varialeName" class="text-center" flex>
+              </md-input-container>
+              <md-button
+                class="md-primary md-icon-button" ng-click="addVariale(varialeName)" aria-label="Add Variale" 
+               >
+                <md-icon md-font-icon="icon-plus"></md-icon>
+              </md-button>
+            </div> 
+
+          </div>
+        </md-tab>
+        <!-- End loopor data -->  
+
+      </md-tabs>
+    </div>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row" >
+    <span flex></span>
+    <md-button class="md-raised md-primary white-fg" ng-click="submit()" aria-label="ok">
+     SUBMIT
+    </md-button>
+    <md-button class="md-raised ml-20" ng-click="cancelDialog()" aria-label="cancel" >
+      CANCEL
+    </md-button>
+    <md-button class="md-raised ml-20" ng-click="remove()" aria-label="cancel">
+      REMOVE
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>
