@@ -34,6 +34,11 @@
           </div>
         </md-input-container>
       </div>
+      <div ng-if="step.negated !== undifined">
+        <md-checkbox ng-model="step.negated" aria-label="Negated">
+          Negated
+        </md-checkbox>
+      </div>
       </form>
     </div>
   </md-dialog-content>

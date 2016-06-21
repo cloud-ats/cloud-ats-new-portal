@@ -14,7 +14,7 @@
           <div layout="row" layout-align="start center" class="pt-16" style="overflow: hidden;">
             
             <!-- Start step list-->
-            <div class="column" flex="25">
+            <div class="column" flex="25" perfect-scrollbar>
               
               <div layout="row" layout-align="start center" layout-wrap>
                 <md-button
@@ -63,7 +63,7 @@
 
             <!-- Start step info -->
             <div layout="row" flex="75" layout-align="start center" layout-wrap>
-              <form name="stepForm">
+              <form name="stepForm" flex>
                 <div ng-repeat="param in currentStep.params">
                   <md-input-container class="md-block"  ng-if="param !== 'locator'
                    && param !== 'targetLocator'">

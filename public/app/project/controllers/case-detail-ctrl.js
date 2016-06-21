@@ -163,6 +163,10 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             changed = true;
             break;
           } else {
+            if((newSteps[i].type.startsWith('verify') || newSteps[i].type.startsWith('assert'))
+              && (newSteps[i].negated != oldSteps[i].negated)){
+              return true ;
+            }
             _.forEach(newSteps[i].params, function(param) {
               if (param !== 'locator' && param !== 'targetLocator') {
                 if (newSteps[i][param] !== oldSteps[i][param]) {
@@ -189,6 +193,9 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           if(step.type == "loopor"){
             $scope.clickToSteploopor(event, step, $scope.caze.steps.length - 1);
           } else {
+            if (step.type.startsWith("verify") || step.type.startsWith("assert")) {
+              step.negated = false;
+            }
             $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
           }
           
@@ -212,7 +219,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     }
 
     $scope.cancelCaseDetail = function () {
-      $scope.caze.steps = angular.copy($scope.caze.originSteps);
+      $scope.caze.steps = $scope.caze.originSteps;
     }
 
     $scope.save = function () {
