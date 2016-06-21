@@ -355,7 +355,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     $scope.clickToSteploopor = function (ev, step, $index) {
       $mdDialog.show({
           
-        templateUrl: 'app/project/views/keyword/step-loopor-form-dialog.tpl.html',
+        templateUrl: 'app/project/views/keyword/loopor-dialog.tpl.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         scope: $scope,
@@ -366,35 +366,35 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           $scope.stepLoopor = step ? step : {};
           $scope.stepLoopor.actions = step.actions ? step.actions : [];
           $scope.stepLoopor.variables = step.variables ? step.variables : [];
-          $scope.stepLoopor.params = step.params ? step.params : [];
           $scope.stepLoopor.times = step.times ? step.times : 1;
+          $scope.showAddNewFilter = false;
 
           $scope.title = step.type + " [" + ($index + 1) + "]";
-          console.log($scope.stepLoopor);
 
-          $scope.addNewStep = function (item) {
+          $scope.addNewStep = function () {
             var step = {} ;
-            step.type = item.type;
+            step.type = $scope.selectedItem.type;
             step.params = [];
-            var keys = _.keys(item.params);
+            var keys = _.keys($scope.selectedItem.params);
             for (var i = 0; i < keys.length; i++) {
               step.params[i] = keys[i];
             }
             $scope.stepLoopor.actions.push(step);
+            console.log($scope.stepLoopor);
           };
 
           $scope.selectStepInLoopor = function (step) {
             $scope.currentStep = step ;
           };
 
-          $scope.addVariale = function (name) {
-            var variable = {"name":name}; 
-            $scope.stepLoopor.variables.push(variable);
-          }
+          // $scope.addVariale = function (name) {
+          //   var variable = {"name":name}; 
+          //   $scope.stepLoopor.variables.push(variable);
+          // }
 
-          $scope.removevariale = function (index) {
-             $scope.stepLoopor.variables.splice(index, 1);
-          }
+          // $scope.removevariale = function (index) {
+          //    $scope.stepLoopor.variables.splice(index, 1);
+          // }
 
           $scope.removeStepInLoopor = function (index) {
             $scope.stepLoopor.actions.splice(index, 1);
@@ -494,10 +494,11 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     //   isNew: true,
     //   type: "loopor",
     //   actions: [],
-    //   variables: []
+    //   variables: [],
+    //   times: 1
     // }
 
-    // $scope.dropCallBack(100, null, mockStep);
+    // $scope.clickToSteploopor(null, mockStep, 0);
 
 	}]);
 })

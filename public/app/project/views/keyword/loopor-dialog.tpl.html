@@ -1,0 +1,142 @@
+<md-dialog aria-label="loopor" class="fullscreen-dialog" ng-cloak >
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools md-primary-bg">
+      <span flex="95" class="md-title text-nowrap">{{title}}</span>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="p-0 md-background-bg md-hue-1" id="layout-vertical-navigation" layout="row" flex 
+    ng-init="isSidenavOpen = true; isSidenavLockedOpen = true">
+
+    <md-sidenav id="vertical-navigation" 
+      class="md-sidenav-left md-background-bg md-hue-1"
+      md-component-id="project-nav-left" 
+      md-is-locked-open="isSidenavLockedOpen"
+      md-is-open="isSidenavOpen">
+
+      <div class="ms-navigation ms-scroll mt-8" layout="column" perfect-scrollbar>
+
+        <div layout="row" class="animate-slide-up">
+          <md-button 
+            class="md-raised md-primary white-fg" 
+            ng-disabled="!selectedItem" ng-click="addNewStep()" flex>
+            Add new step
+          </md-button>
+        </div>
+
+        <div layout="row" class="p-8 animate-slide-up">
+          <md-autocomplete
+            md-selected-item="selectedItem"
+            md-search-text="searchKeyword"
+            md-items="item in listResultKey"
+            md-item-text="buildTextKeyword(item)"
+            md-min-length="0"
+            placeholder="What is step name" flex>
+            <md-item-template >
+              <span md-highlight-text="searchKeyword" md-highlight-flags="^i">
+                {{buildTextKeyword(item)}}
+              </span> 
+            </md-item-template>
+            <md-not-found>
+              No keywords matching {{searchKeyword}} were found.
+            </md-not-found>
+          </md-autocomplete>
+        </div>
+
+        <form name="looporForm">
+          <div layout="row" class="ph-8">
+            <md-input-container class="mb-0" flex>
+              <label>Times of loop</label>
+              <input type="number" ng-model="stepLoopor.times" name="times" min="1" required>
+              <div ng-messages="looporForm.times.$error" role="alert" aria-live="assertive" >
+                <div ng-message="required"><span class="text-uppercase">Times</span> is required</div>
+              </div>
+            </md-input-container>
+          </div>
+        </form>
+        
+        <div layout="row" class="ph-8" layout-wrap>
+          <span class="md-primary-fg" flex="100">Variales for each time</span>
+          <md-chips ng-model="stepLoopor.variables" flex="100"></md-chips>
+        </div>
+
+        <div layout="row" layout-align="center center">
+          <md-button class="md-raised md-primary white-fg" ng-click="submit()" ng-disabled="stepForm.$invalid">Ok</md-button>
+          <md-button class="md-raised" ng-click="cancelDialog()">Cancel</md-button>
+        </div>
+
+      </div>
+
+    </md-sidenav>
+
+
+    <md-content class="md-hue-1" flex>
+
+      <form name="stepForm">
+      <div id="loopor" class="ms-card"
+        dnd-list="stepLoopor.actions" 
+        dnd-horizontal-list="true" 
+        dnd-external-sources="false" 
+        layout="row" layout-wrap layout-align="start center" flex="100">
+
+        <div ng-repeat="action in stepLoopor.actions" 
+          layout="row" layout-align="start center"
+          dnd-draggable="action"  
+          dnd-type="'containerType'"
+          dnd-effect-allowed="move"
+          dnd-moved="stepLoopor.actions.splice($index, 1)" 
+          class="white-bg md-whiteframe-3dp mv-8 animate-slide-up" flex="100">
+          <div layout="row" layout-align="start center" layout-wrap flex>
+            
+            <div class="ph-16">
+              <span class="badge-order white-fg green-400-bg width-24 text-center ph-8">{{$index + 1}}</span>
+              <span class="pl-8">{{action.type}}</span>
+            </div>
+
+            <div layout="column" flex>
+              <div ng-repeat="param in action.params">
+                <md-input-container class="md-block"  ng-if="param !== 'locator' && param !== 'targetLocator'">
+                  <label>{{param}}</label>
+                  <input type="text" ng-model="action[param]" name="param{{$index}}" required>
+                  <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                    <div ng-message="required"><span class="text-uppercase">{{param}}</span> is required</div>
+                  </div>
+                </md-input-container>
+                <div layout="row" ng-if="param === 'locator' || param ==='targetLocator'">
+                  <md-input-container class="md-block" flex="30">
+                    <label>{{param}} type</label>
+                    <md-select ng-model="action[param].type" name="param{{$index}}" required>
+                      <md-option ng-repeat="type in types" value="{{type.value}}">
+                        {{type.value}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                      <div ng-message="required"><span class="text-uppercase">{{param}}</span> is required</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container class="md-block" flex="70">
+                    <label>{{param}} value</label>
+                    <input type="text" ng-model="action[param].value" name="param{{$index}}" required>
+                    <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >
+                      <div ng-message="required"><span class="text-uppercase">{{param}}</span> value is required</div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <md-button class="md-icon-button md-warn" ng-click="removeStepInLoopor($index)">
+            <md-icon md-font-icon="icon-close"></md-icon>
+          </md-button>            
+        </div>
+
+      </div>
+      </form>
+
+    </md-content>
+
+  </md-dialog-content>
+
+</md-dialog>
