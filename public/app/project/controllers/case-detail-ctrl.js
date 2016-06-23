@@ -394,15 +394,12 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             $scope.currentStep = step ;
           };
 
-          // $scope.addVariale = function (name) {
-          //   var variable = {"name":name}; 
-          //   $scope.stepLoopor.variables.push(variable);
-          // }
-
-          // $scope.removevariale = function (index) {
-          //    $scope.stepLoopor.variables.splice(index, 1);
-          // }
-
+          $scope.addVariale = function (chip) {
+            return {
+              "name": chip
+            };
+          }
+          
           $scope.removeStepInLoopor = function (index) {
             $scope.stepLoopor.actions.splice(index, 1);
             $scope.currentStep = $scope.stepLoopor.actions[0];

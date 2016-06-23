@@ -58,7 +58,7 @@
         
         <div layout="row" class="ph-8" layout-wrap>
           <span class="md-primary-fg" flex="100">Variales for each time</span>
-          <md-chips ng-model="stepLoopor.variables" flex="100">
+          <md-chips ng-model="stepLoopor.variables" flex="100" md-transform-chip="addVariale($chip)">
             <md-chip-template>
               <strong>{{$chip.name}}</strong>
             </md-chip-template>
