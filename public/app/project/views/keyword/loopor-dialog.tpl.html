@@ -58,7 +58,11 @@
         
         <div layout="row" class="ph-8" layout-wrap>
           <span class="md-primary-fg" flex="100">Variales for each time</span>
-          <md-chips ng-model="stepLoopor.variables" flex="100"></md-chips>
+          <md-chips ng-model="stepLoopor.variables" flex="100">
+            <md-chip-template>
+              <strong>{{$chip.name}}</strong>
+            </md-chip-template>
+          </md-chips>
         </div>
 
         <div layout="row" layout-align="center center">
@@ -104,7 +108,7 @@
                   </div>
                 </md-input-container>
                 <div layout="row" ng-if="param === 'locator' || param ==='targetLocator'">
-                  <md-input-container class="md-block" flex="30">
+                  <md-input-container class="md-block" flex="20">
                     <label>{{param}} type</label>
                     <md-select ng-model="action[param].type" name="param{{$index}}" required>
                       <md-option ng-repeat="type in types" value="{{type.value}}">
@@ -115,7 +119,7 @@
                       <div ng-message="required"><span class="text-uppercase">{{param}}</span> is required</div>
                     </div>
                   </md-input-container>
-                  <md-input-container class="md-block" flex="70">
+                  <md-input-container class="md-block" flex="80">
                     <label>{{param}} value</label>
                     <input type="text" ng-model="action[param].value" name="param{{$index}}" required>
                     <div ng-messages="stepForm['param' + $index].$error" role="alert" aria-live="assertive" >

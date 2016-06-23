@@ -474,23 +474,30 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       })
     }
 
+    var recursiveVariable = function (val, params) {
+      var startIndex = val.indexOf('${');
+      var endIndex = val.indexOf('}');
+      if (startIndex != -1 && endIndex != -1) {
+        var variable = val.substring(startIndex + 2, endIndex);
+        if (params.indexOf(variable) == -1) params.push(variable);
+        recursiveVariable(val.substring(endIndex + 1), params);
+      }
+    }
+
     var buildParamList = function(steps) {
       var params = [];
       _.forEach(steps, function(step) {
         _.forEach(step.params, function(param) {
+
           var val = step[param];
+
           if (val instanceof Object) {
             val = val.value;
           } else if (val) {
             val = val + "";
           }
           if (val) {
-            var startIndex = val.indexOf('${');
-            var endIndex = val.lastIndexOf('}');
-            if (startIndex == 0 && endIndex == (val.length - 1)) {
-              var variable = val.substring(startIndex + 2, endIndex);
-              if (params.indexOf(variable) == -1) params.push(variable);
-            }
+            recursiveVariable(val, params)
           }
         });
       });
