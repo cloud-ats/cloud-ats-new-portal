@@ -71,7 +71,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
                 });
               }
             }
-
             var data = {
               name: '[Data Driven] ' + $scope.data.name
             }

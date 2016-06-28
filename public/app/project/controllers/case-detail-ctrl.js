@@ -190,7 +190,9 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       
       if (step.isNew) {
         if (index >= $scope.caze.steps.length - 1) {
-          if(step.type == "loopor"){
+          if(step.type == "snippet") {
+            $scope.clickToStepSnippet(event, step, $scope.caze.steps.length - 1);
+          } else if(step.type == "loopor"){
             $scope.clickToSteploopor(event, step, $scope.caze.steps.length - 1);
           } else {
             if (step.type.startsWith("verify") || step.type.startsWith("assert")) {
@@ -202,7 +204,9 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         } else {
           $scope.caze.steps.splice(index, 1);
           $scope.caze.steps.push(step);
-          if(step.type == "loopor"){
+          if(step.type == "snippet") {
+            $scope.clickToStepSnippet(event, step, $scope.caze.steps.length - 1);
+          } else if(step.type == "loopor"){
             $scope.clickToSteploopor(event, step, $scope.caze.steps.length - 1);
           } else {
             $scope.clickToStep(event, step, $scope.caze.steps.length - 1);
@@ -429,6 +433,21 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
               }
             }
           });
+        }
+      })
+    };
+
+    $scope.clickToStepSnippet = function (ev, step, $index) {
+      $mdDialog.show({
+        templateUrl: 'app/project/views/keyword/snippet-dialog.tpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        scope: $scope,
+        preserveScope: true,
+        escapeToClose: false,
+        controller: function() {
+          $scope.stepSnippet = step ? step : {};
+          
         }
       })
     }

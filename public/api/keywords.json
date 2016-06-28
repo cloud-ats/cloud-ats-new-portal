@@ -112,6 +112,12 @@
       },
       "description": "loop steps"
     },
+    "snippet": {
+      "params": {
+        "code": "code"
+      },
+      "description": "Creates a new keyword by coding."
+    },
     "addCookie": {
       "params": {
         "name": "The cookie's name.",
