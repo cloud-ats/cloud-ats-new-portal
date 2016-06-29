@@ -82,17 +82,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         $scope.breadcrumbs = [overview, cases, caze];
 
 
-        var listKeywordsInCase = [] ;
-        _.forEach($scope.caze.steps, function (step) {
-          if (step.actions) {
-            _.forEach(step.actions, function (action){
-              listKeywordsInCase.push(action);
-            });
-          } else {
-            listKeywordsInCase.push(step);
-          }
-          
-        });
+        var listKeywordsInCase = transListActions() ;
 
         if ($scope.caze.data_driven) {
           var dataDriven = {
@@ -142,6 +132,20 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
 
       });
     }
+    var transListActions = function () {
+      var listKeywords = [] ;
+      _.forEach($scope.caze.steps, function (step) {
+          if (step.actions) {
+            _.forEach(step.actions, function (action){
+              listKeywords.push(action);
+            });
+          } else {
+            listKeywords.push(step);
+          }
+          
+        });
+      return listKeywords;
+    };
 
     initData();
 
@@ -187,7 +191,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
     }
 
     $scope.dropCallBack = function (index, event, step) {
-      
       if (step.isNew) {
         if (index >= $scope.caze.steps.length - 1) {
           if(step.type == "snippet") {
@@ -348,7 +351,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
             $scope.step = $scope.originStep;
             $mdDialog.cancel();
           };
-          $scope.submit = function() {
+          $scope.submitStep = function() {
             $scope.step.isNew = undefined;
             $scope.caze.steps[$index] = $scope.step;
             $mdDialog.cancel();
@@ -373,7 +376,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         preserveScope: true,
         escapeToClose: false,
         controller: function() {
-
           $scope.stepLoopor = step ? step : {};
           $scope.stepLoopor.actions = step.actions ? step.actions : [];
           $scope.stepLoopor.variables = step.variables ? step.variables : [];
@@ -391,7 +393,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
               step.params[i] = keys[i];
             }
             $scope.stepLoopor.actions.push(step);
-            console.log($scope.stepLoopor);
           };
 
           $scope.selectStepInLoopor = function (step) {
@@ -410,16 +411,13 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           }
 
           $scope.cancelDialog = function() {
+            $scope.caze.steps = $scope.caze.originSteps;
             $mdDialog.cancel();
           };
 
-          $scope.submit = function() {
-            $scope.stepLoopor.isNew = undefined;
+          $scope.okDialog = function() {
             $scope.caze.steps[$index] = $scope.stepLoopor;
-            $mdDialog.cancel();
-          };
-
-          $scope.remove = function() {
+            console.log($scope.caze.steps);
             $mdDialog.cancel();
           };
 
@@ -436,7 +434,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         }
       })
     };
-
     $scope.clickToStepSnippet = function (ev, step, $index) {
       $mdDialog.show({
         templateUrl: 'app/project/views/keyword/snippet-dialog.tpl.html',
@@ -447,7 +444,19 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         escapeToClose: false,
         controller: function() {
           $scope.stepSnippet = step ? step : {};
+          $scope.params = buildParamList(transListActions());
+          $scope.title = step.type + " [" + ($index + 1) + "]";
           
+          $scope.cancelDialog = function() {
+            $scope.caze.steps = $scope.caze.originSteps;
+            $mdDialog.cancel();
+          };
+
+          $scope.saveSnippet = function() {
+            $scope.caze.steps[$index] = $scope.stepSnippet;
+            $mdDialog.cancel();
+          };
+
         }
       })
     }
@@ -519,16 +528,6 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       });
       return params;
     };
-
-    // var mockStep = {
-    //   isNew: true,
-    //   type: "loopor",
-    //   actions: [],
-    //   variables: [],
-    //   times: 1
-    // }
-
-    // $scope.clickToSteploopor(null, mockStep, 0);
 
 	}]);
 })

@@ -86,6 +86,9 @@
             <a href-void ng-click="clickToSteploopor($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="(step.type =='loopor')">
               {{step.type}}
             </a> 
+            <a href-void ng-click="clickToStepSnippet($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="(step.type =='snippet')">
+              {{step.type}}
+            </a> 
           </div>
           <div layout="row" layout-wrap layout-align="start center" flex>
             <div class="pl-8 pb-8" ng-repeat="param in step.params" layout="row" flex="100" layout-align="start center">

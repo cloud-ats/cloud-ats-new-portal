@@ -23,7 +23,7 @@ define([
     'app.project',
     'app.project.keyword',
     'app.project.keyword.reports',
-    //'app.project.performance',
+    // 'app.project.performance',
     'app.auth'
   ]);
 

@@ -2,34 +2,41 @@
   
   <md-toolbar>
     <div class="md-toolbar-tools md-primary-bg">
-      <span flex="95" class="md-title text-nowrap">Snippet</span>
+      <span flex="95" class="md-title text-nowrap">{{title}}</span>
     </div>
   </md-toolbar>
 
   <md-dialog-content class="p-0">
-    <!-- start variable -->
-    <div layout="row" class="ph-8" layout-wrap>
-      <span class="md-primary-fg" flex="100">Variales for Code</span>
-      <md-chips flex="100">
-        <md-chip-template>
-          <strong>Demo</strong>
-        </md-chip-template>
-      </md-chips>
-    </div>
-    <!-- end variable -->
-
     <!-- start Script content -->
-    <div class="tab-pane fade in" id="script-content" style="height: 700px; padding-bottom: 15px;">
-      <div ui-ace="{
-          useWrapMode : true,
-          showGutter: true,
-          showInvisibles: true,
-          theme:'eclipse',
-          mode: 'java',
-          onLoad: aceLoaded,
-          onChange: aceChanged
-        }" style="height: 100%;"></div>
-    </div>
+    <md-tabs md-dynamic-height>
+       <md-tab label="Script Content">
+
+        <!-- start variable -->
+        <div layout="row" class="ph-8" layout-wrap>
+          <span class="md-primary-fg" flex="100">Variales for Code</span>
+          <md-chips flex="100" ng-model="params" readonly="true">
+            <md-chip-template>
+              <strong>{{$chip}}</strong>
+            </md-chip-template>
+          </md-chips>
+        </div>
+        <!-- end variable -->
+
+        <md-content class="md-padding" style="height: 700px; padding-bottom: 15px;">
+          <code>(*) 'RemoteWebDriver' is 'wd'</code>
+          <br>
+          <div ui-ace="{
+              useWrapMode : true,
+              showGutter: true,
+              showInvisibles: true,
+              theme:'eclipse',
+              mode: 'java',
+              onLoad: aceLoaded,
+              onChange: aceChanged
+            }" ng-model="stepSnippet.code" style="height: 100%;"></div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
 
     <!-- end Script content -->
 
@@ -39,14 +46,11 @@
 
   <md-dialog-actions layout="row" >
     <span flex></span>
-    <md-button class="md-raised md-primary white-fg" ng-click="submit()" aria-label="ok">
+    <md-button class="md-raised md-primary white-fg" ng-click="saveSnippet()" aria-label="ok">
      SAVE
     </md-button>
     <md-button class="md-raised ml-20" ng-click="cancelDialog()" aria-label="cancel" >
       CANCEL
-    </md-button>
-    <md-button class="md-raised ml-20" ng-click="remove()" aria-label="cancel">
-      REMOVE
     </md-button>
   </md-dialog-actions>
 

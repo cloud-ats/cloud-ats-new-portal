@@ -5,11 +5,12 @@ define([
   'angular-messages',
   'angular-drag-and-drop-lists',
   'angular-material-data-table',
-  'ng-file-upload'
+  'ng-file-upload',
+  'angular-ui-ace'
 ], function (ng, couchPotato) {
   'use strict';
 
-  var module = ng.module('app.project.keyword', ['ui.router', 'ngMessages', 'dndLists', 'md.data.table', 'ngFileUpload']);
+  var module = ng.module('app.project.keyword', ['ui.router', 'ngMessages', 'dndLists', 'md.data.table', 'ngFileUpload', 'ui.ace']);
 
   module.config(['$stateProvider', '$couchPotatoProvider', function ($stateProvider, $couchPotatoProvider) {
     $stateProvider
