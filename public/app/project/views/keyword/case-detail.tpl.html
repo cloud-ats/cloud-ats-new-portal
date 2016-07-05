@@ -80,7 +80,7 @@
         <!-- In case present build-in keyword -->
         <div class="ms-card-content-wrapper" layout="column" ng-if="!step.steps">
           <div layout="row" class="p-8">
-            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="!(step.type =='loopor')">
+            <a href-void ng-click="clickToStep($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="!(step.type =='loopor') && !(step.type =='snippet')">
               {{step.type}}
             </a>  
             <a href-void ng-click="clickToSteploopor($event, step, $index)" class="md-primary-fg text-nowrap-ellipsis" ng-if="(step.type =='loopor')">
@@ -90,7 +90,21 @@
               {{step.type}}
             </a> 
           </div>
+
           <div layout="row" layout-wrap layout-align="start center" flex>
+            <div class="pl-8 pb-8" layout="row" flex="100" layout-align="start center">
+              <div layout="row">
+                <span class="text-bold pr-4">Desc:</span>
+                <span flex></span>
+                <span class="text-nowrap-ellipsis">
+                  <md-tooltip>{{step.desc}}</md-tooltip>
+                  {{step.desc}}
+                </span>                
+              </div>
+            </div>
+          </div>
+
+          <!-- <div layout="row" layout-wrap layout-align="start center" flex>
             <div class="pl-8 pb-8" ng-repeat="param in step.params" layout="row" flex="100" layout-align="start center">
               <div layout="row">
                 <span class="text-bold pr-4">{{param}}</span>
@@ -100,7 +114,8 @@
                 </span>                
               </div>
             </div>
-          </div>
+          </div> -->
+
           <div layout="row" class="p-8 border-top">
             <span class="badge-order white-fg green-400-bg width-24 text-center">{{$index+1}}</span>
             <span flex></span>

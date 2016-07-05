@@ -8,36 +8,39 @@
 
   <md-dialog-content class="p-0">
     <!-- start Script content -->
-    <md-tabs md-dynamic-height>
-       <md-tab label="Script Content">
-
-        <!-- start variable -->
-        <div layout="row" class="ph-8" layout-wrap>
-          <span class="md-primary-fg" flex="100">Variales for Code</span>
-          <md-chips flex="100" ng-model="params" readonly="true">
-            <md-chip-template>
-              <strong>{{$chip}}</strong>
-            </md-chip-template>
-          </md-chips>
+    <form name="stepForm">
+      <md-input-container class="md-block">
+        <label>Description</label>
+        <textarea name="desc" ng-model="stepSnippet.desc" required md-maxlength="100"></textarea>
+        <div ng-messages="stepForm.desc.$error">
+          <div ng-message="md-maxlength">That's too long!</div>
         </div>
+      </md-input-container>
+        <!-- start variable -->
+      <div layout="row" class="ph-8" layout-wrap>
+        <span class="md-primary-fg" flex="100">Variales for Code</span>
+        <md-chips flex="100" ng-model="listParamsofData" readonly="true">
+          <md-chip-template>
+            <strong>{{$chip}}</strong>
+          </md-chip-template>
+        </md-chips>
+      </div>
         <!-- end variable -->
 
-        <md-content class="md-padding" style="height: 700px; padding-bottom: 15px;">
-          <code>(*) 'RemoteWebDriver' is 'wd'</code>
-          <br>
-          <div ui-ace="{
-              useWrapMode : true,
-              showGutter: true,
-              showInvisibles: true,
-              theme:'eclipse',
-              mode: 'java',
-              onLoad: aceLoaded,
-              onChange: aceChanged
-            }" ng-model="stepSnippet.code" style="height: 100%;"></div>
-        </md-content>
-      </md-tab>
-    </md-tabs>
-
+      <md-content class="md-padding" style="height: 700px; padding-bottom: 15px;">
+        <code>(*) 'RemoteWebDriver' is 'wd'</code>
+        <br>
+        <div ui-ace="{
+            useWrapMode : true,
+            showGutter: true,
+            showInvisibles: true,
+            theme:'eclipse',
+            mode: 'java',
+            onLoad: aceLoaded,
+            onChange: aceChanged
+          }" ng-model="stepSnippet.code" style="height: 100%;"></div>
+      </md-content>
+    </form>  
     <!-- end Script content -->
 
   </md-dialog-content>
@@ -46,7 +49,7 @@
 
   <md-dialog-actions layout="row" >
     <span flex></span>
-    <md-button class="md-raised md-primary white-fg" ng-click="saveSnippet()" aria-label="ok">
+    <md-button class="md-raised md-primary white-fg" ng-click="saveSnippet()" aria-label="ok" ng-disabled="stepForm.$invalid">
      SAVE
     </md-button>
     <md-button class="md-raised ml-20" ng-click="cancelDialog()" aria-label="cancel" >
