@@ -165,28 +165,34 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
       if(newSteps.length !== oldSteps.length) changed = true;
       else {
         for(var i = 0; i < newSteps.length; i++) {
-          if (newSteps[i].type !== oldSteps[i].type || newSteps[i].desc !== oldSteps[i].desc) {
-            changed = true;
-            break;
-          } else {
-            if((newSteps[i].type.startsWith('verify') || newSteps[i].type.startsWith('assert'))
-              && (newSteps[i].negated != oldSteps[i].negated)){
-              return true ;
-            }
-            _.forEach(newSteps[i].params, function(param) {
-              if (param !== 'locator' && param !== 'targetLocator') {
-                if (newSteps[i][param] !== oldSteps[i][param]) {
+          if(newSteps[i].type !=="loopor"){
+            if (newSteps[i].type !== oldSteps[i].type || newSteps[i].desc !== oldSteps[i].desc) {
+              changed = true;
+              break;
+            } else {
+              if((newSteps[i].type.startsWith('verify') || newSteps[i].type.startsWith('assert'))
+                && (newSteps[i].negated != oldSteps[i].negated)){
+                return true ;
+              } else if(newSteps[i].type =="snippet"){
+                if(newSteps[i].code !== oldSteps[i].code){
+                  return true ;
+                }
+              }
+              _.forEach(newSteps[i].params, function(param) {
+                if (param !== 'locator' && param !== 'targetLocator') {
+                  if (newSteps[i][param] !== oldSteps[i][param]) {
+                    changed = true;
+                    return;
+                  }
+                } else if (newSteps[i][param].type !== oldSteps[i][param].type || newSteps[i][param].value !== oldSteps[i][param].value){
                   changed = true;
                   return;
                 }
-              } else if (newSteps[i][param].type !== oldSteps[i][param].type || newSteps[i][param].value !== oldSteps[i][param].value){
-                changed = true;
-                return;
-              }
-            });
+              });
 
-            if (changed) return true;
-          }
+              if (changed) return true;
+            }
+          } 
         }
       }
       return changed;
@@ -382,6 +388,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           $scope.stepLoopor.actions = step.actions ? step.actions : [];
           $scope.stepLoopor.variables = step.variables ? step.variables : [];
           $scope.stepLoopor.times = step.times ? step.times : 1;
+          $scope.originStepLoopor = angular.copy(step);
 
           $scope.title = step.type + " [" + ($index + 1) + "]";
 
@@ -412,13 +419,19 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           }
 
           $scope.cancelDialog = function() {
-            $scope.caze.steps = $scope.caze.originSteps;
+            $scope.caze.steps[$index] = $scope.originStepLoopor;
             $mdDialog.cancel();
           };
 
           $scope.okDialog = function() {
             $scope.stepLoopor.isNew = undefined;
             $scope.caze.steps[$index] = $scope.stepLoopor;
+            if($scope.stepLoopor.variables.length != $scope.originStepLoopor.variables.length || $scope.stepLoopor.times != $scope.originStepLoopor.times){
+              $scope.hasChanged = true;
+            } else {
+              $scope.hasChanged = detectChanged($scope.stepLoopor.actions, $scope.originStepLoopor.actions);
+            }
+            
             $mdDialog.cancel();
           };
 
@@ -445,6 +458,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
         preserveScope: true,
         escapeToClose: false,
         controller: function() {
+          $scope.originStepSnippet = angular.copy(step);
 
           if ($scope.caze.data_driven) {
             DataService.get($scope.caze.data_driven._id).then(function(response) {
@@ -460,6 +474,7 @@ define(['project/keyword-module', 'lodash'], function (module, _) {
           $scope.title = step.type + " [" + ($index + 1) + "]";
           
           $scope.cancelDialog = function() {
+            $scope.caze.steps[$index] = $scope.originStepSnippet;
             $mdDialog.cancel();
           };
 
