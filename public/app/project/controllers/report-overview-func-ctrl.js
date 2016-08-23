@@ -71,8 +71,29 @@ define(['project/module', 'lodash'], function (module, _) {
         });
       }
 
-      $scope.viewLog = function(ev) {
+      /*$scope.viewLog = function(ev) {
         KeywordService.log($scope.project._id, function (data, status) {
+          if (status == 200) {
+            $scope.project.log = data;
+            $mdDialog.show({
+            templateUrl: 'app/project/views/keyword/dialog-file-log.tpl.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            scope: $scope,
+            preserveScope: true,
+            controller: function() {
+              $scope.cancel = function () {
+                $mdDialog.hide();
+              }
+            }
+            }).then(function () {
+            });
+          }
+        });
+      }*/
+      $scope.viewLog = function(ev, jobId) {
+        KeywordService.jobLog($scope.project._id, jobId, function (data, status) {
           if (status == 200) {
             $scope.project.log = data;
             $mdDialog.show({

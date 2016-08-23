@@ -562,6 +562,9 @@ md-table-container.data-driven table thead tr th md-input-container, md-table-co
 .exe-step {
   padding-left: 10px !important;
 }
+.schedule-select {
+  padding-left: 20px !important;
+}
 
 md-dialog.fullscreen-dialog {
     max-width: 100%;

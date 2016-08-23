@@ -16,32 +16,32 @@
 	
 	<div class="title padding-left-20 margin-top-20">{{project.name}}</div>
 	<div layout="row" flex layout-align="start center" class="padding-left-20 margin-top-5 margin-bottom-16">
-    <div layout="column" layout flex="10">
-        <div>{{getWord('Test Suites')}}</div>
-        <div>{{project.totalSuites}}</div>
-    </div>
-    <div layout="column" layout flex="10">
-        <div>{{getWord('Test Cases')}}</div>
-        <div>{{project.totalCases}}</div>
-    </div>
-    <div layout="column" layout flex="10" class="margin-right-30">
-        <div>{{getWord('Last Running')}}</div>
-        <div>{{project.lastRunning === undefine ? 'N/A' : project.lastRunning}}</div>
-    </div>
-    <div layout="column" layout layout-align="center center" flex="10" ng-if="project.log">
-       <a class='btn-border-line' 
-  		 ng-click="viewLog($event)">{{getWord('View Log')}}</a>
-    </div>
+	    <div layout="column" layout flex="10">
+	        <div>{{getWord('Test Suites')}}</div>
+	        <div>{{project.totalSuites}}</div>
+	    </div>
+	    <div layout="column" layout flex="10">
+	        <div>{{getWord('Test Cases')}}</div>
+	        <div>{{project.totalCases}}</div>
+	    </div>
+	    <div layout="column" layout flex="10" class="margin-right-30">
+	        <div>{{getWord('Last Running')}}</div>
+	        <div>{{project.lastRunning === undefine ? 'N/A' : project.lastRunning}}</div>
+	    </div>
+	    <!-- <div layout="column" layout layout-align="center center" flex="10" ng-if="project.log">
+	        <a class='btn-border-line' 
+	  		 ng-click="viewLog($event)">{{getWord('View Log')}}</a>
+	    </div> -->
 
 		<div layout="column" layout flex="10" layout-align="center center" ng-if="project.status==='READY' && project.lastSuites && project.totalSuites">
-      <a class='btn-border-line' 
-		 	ng-click="runLastSuites()">{{getWord('Run')}}</a>
+	        <a class='btn-border-line' 
+			 	ng-click="runLastSuites()">{{getWord('Run')}}</a>
 		</div>
-	 	<div layout="column" layout layout-align="center center" flex="10" ng-if="project.isBuilding">
-	    <a class='btn-border-line btn-danger' 
-		 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
-	  </div>
-  </div>
+		<div layout="column" layout layout-align="center center" flex="10" ng-if="project.isBuilding">
+		    <a class='btn-border-line btn-danger' 
+			 	ng-click="stopProject(project._id)">{{getWord('Stop')}}</a>
+		</div>
+  	</div>
 
 	<div class="simple-table-container md-whiteframe-4dp" perfect-scrollbar>
 		<div class="table-title">Functional Report</div>
@@ -57,11 +57,13 @@
 						<th>Duration(s)</th>
 						<th>Create By</th>
 						<th>Download Resource</th>
+						<th>Log</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="rep in listReports track by $index">
-	            		<td class="test-report"><a ng-click="redirectTo(rep.jobId)">Report-{{rep.created_date}}</a>
+	            		<td class="test-report">
+	            			<a ng-click="redirectTo(rep.jobId)">Report-{{rep.created_date}}</a>
 	            		</td>
 	            		<td>{{rep.numberPassedSuite + rep.numberFailedSuite}}</td>
 	           			<td>{{rep.numberPassedSuite}}</td>
@@ -71,7 +73,12 @@
 	            		<td>{{rep.duration}}</td>
 	            		<td>{{project.creator._id}}</td>
 	            		<td><a class = 'btn-border-line' 
-	            		download='final-result.tar.gz' ng-click="downloadResult(project._id,rep.jobId)">{{getWord('Click Here')}}</a></td>
+	            			download='final-result.tar.gz' ng-click="downloadResult(project._id,rep.jobId)">{{getWord('Click Here')}}</a>
+	            		</td>
+	            		<td>
+	            			<a class='btn-border-line' 
+	  		 				ng-click="viewLog($event, rep.jobId)">{{getWord('View')}}</a>
+	            		</td>
 	          		</tr>
 				</tbody>
 			</table>

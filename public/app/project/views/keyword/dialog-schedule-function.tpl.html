@@ -1,7 +1,7 @@
-<md-dialog aria-label="Execution" style="width: 45%; min-width: 45%"  ng-cloak >
+<md-dialog aria-label="Schedule" style="width: 45%; min-width: 45%"  ng-cloak >
     <md-toolbar>
       <div class="md-toolbar-tools md-primary-bg">
-        <span flex="95" class="md-title text-nowrap">Execution Functional</span>
+        <span flex="95" class="md-title text-nowrap">Schedule Functional</span>
         <md-button ng-click="cancel()" aria-label="cancel">
           <md-icon md-font-icon="icon-cancel" flex="5" ></md-icon>
         </md-button>
@@ -13,33 +13,41 @@
           <div class="ms-stepper-horizontal">
             <div class="ms-stepper-navigation-wrapper">
               <div class="ms-stepper-navigation" layout="row" layout-align="center center">
-                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="1 Choose Suites">
+                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="1 Setting time">
                   <div class="step md-accent-bg" layout="row" layout-align="center center">
                     <span>1</span>
+                  </div>
+                  <div layout="column" layout-align="start start">
+                    <div>Time</div>
+                  </div>
+                </md-button>
+                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="2 Choose Suites">
+                  <div class="step md-accent-bg" layout="row" layout-align="center center">
+                    <span>2</span>
                   </div>
                   <div layout="column" layout-align="start start">
                     <div>Suites</div>
                   </div>
                 </md-button>
-                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="2 Choose Browsers">
+                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="3 Choose Browsers">
                   <div class="step md-accent-bg" layout="row" layout-align="center center">
-                    <span>2</span>
+                    <span>3</span>
                   </div>
                   <div layout="column" layout-align="start start">
                     <div>Browsers</div>
                   </div>
                 </md-button>
-                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="3 Selenium Version">
+                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="4 Selenium Version">
                   <div class="step md-accent-bg" layout="row" layout-align="center center">
-                    <span>3</span>
+                    <span>4</span>
                   </div>
                   <div layout="column" layout-align="start start">
                     <div>Selenium</div>
                   </div>
                 </md-button>
-                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="4 Choose OS">
+                <md-button class="ms-stepper-navigation-item exe-step" layout="row" layout-align="start center" aria-label="5 Choose OS">
                   <div class="step md-accent-bg" layout="row" layout-align="center center">
-                    <span>4</span>
+                    <span>5</span>
                   </div>
                   <div layout="column" layout-align="start start">
                     <div>OS</div>
@@ -50,7 +58,49 @@
             </div>
             
             <div class="ms-stepper-steps" style="padding: 2px 2px;">
-              <ms-stepper-step id="1" step-title="'Choose Suites'" class="ms-stepper-step" ng-show="currentStep === 1" >
+              <ms-stepper-step id="1" step-title="'Setting Time'" class="ms-stepper-step" ng-show="currentStep === 1" >
+                <div layout="row" class="exe-step">
+                  <md-input-container flex="100">
+                  <label>name</label>
+                  <input ng-model="schedule.name">
+                </md-input-container>
+                </div>
+                <div layout="row" class="exe-step">
+                  <md-input-container flex-gt-md="35">
+                    <label>Hour</label>
+                    <input ng-model="schedule.hour" type="number" max="23" min="0">
+                  </md-input-container>
+                  <md-input-container flex-gt-md="35">
+                    <label>Minute</label>
+                    <input ng-model="schedule.minute" type="number" max="59" min="0">
+                  </md-input-container>
+                </div>
+                <div layout="row" class="exe-step" flex="100">
+                  <md-radio-group layout="row" ng-model="modSchedule" flex="100"> 
+                    <md-radio-button value="OnlyDate" flex="40">OnlyDate</md-radio-button>
+                    <md-radio-button value="RepeatDate" flex="40">Repeat Date</md-radio-button>
+                  </md-radio-group>
+                </div>
+                <div layout="row" class="exe-step" ng-show="modSchedule === 'OnlyDate'">
+                  <md-datepicker ng-model="schedule.day" md-placeholder="Select Date"></md-datepicker>
+                </div>
+                <div layout="column" class="exe-step" ng-show="modSchedule === 'RepeatDate'">
+                  <div flex-xs>
+                    <md-checkbox aria-label="Select All"
+                                 md-indeterminate="isIndeterminate()"
+                                 ng-click="toggleAll()">
+                      <span ng-if="isChecked()"></span>Select All
+                    </md-checkbox>
+                  </div>
+                  <div ng-repeat="item in ListDateInit" class="schedule-select">
+                    <md-checkbox ng-checked="exists(item, schedule.dateRepeat)" ng-click="toggle(item, schedule.dateRepeat)">
+                     {{ item }}
+                    </md-checkbox>
+                  </div>
+                </div>
+              </ms-stepper-step>
+
+              <ms-stepper-step id="2" step-title="'Choose Suites'" class="ms-stepper-step" ng-show="currentStep === 2" >
                   <div class="md-padding" layout="column">
                       <div layout="row" flex=>
                         <div class="search-box" layout="row" layout-align="start center" flex style="margin-bottom: 16px;">
@@ -71,7 +121,7 @@
                   </div>
               </ms-stepper-step>
 
-              <ms-stepper-step id="2" step-title="'Choose Browsers'" class="ms-stepper-step" ng-show="currentStep === 2">
+              <ms-stepper-step id="3" step-title="'Choose Browsers'" class="ms-stepper-step" ng-show="currentStep === 3">
                 <div class="md-padding">
                   <md-radio-group ng-model="project.browser">
                     <div layout="column">
@@ -125,7 +175,7 @@
                 </div>
               </ms-stepper-step>
 
-              <ms-stepper-step id="3" step-title="'Version Selenium'" class="ms-stepper-step" ng-show="currentStep === 3">
+              <ms-stepper-step id="4" step-title="'Version Selenium'" class="ms-stepper-step" ng-show="currentStep === 4">
                 <div class="md-padding">
                       <div layout="column">
                         <div layout="row">
@@ -163,7 +213,7 @@
                   </div>
               </ms-stepper-step>
 
-              <ms-stepper-step id="4" step-title="'Version OS'" class="ms-stepper-step" ng-show="currentStep === 4">
+              <ms-stepper-step id="5" step-title="'Version OS'" class="ms-stepper-step" ng-show="currentStep === 5">
                   <div class="md-padding">
                     <!-- <md-radio-group ng-model="project.os">
                       <div layout="column">
@@ -214,11 +264,11 @@
                 <span class="ng-scope">Back</span>
                 <div class="md-ripple-container"></div>
               </button>
-              <button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Next" ng-disabled="currentStep === 4 || checkSuiteSelected || radioValue" ng-click="nextStepExecution()">
+              <button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Next" ng-disabled="currentStep === 5 || checkSuiteSelected" ng-click="nextStepExecution()">
                 <span class="ng-scope">Next</span>
               </button>
-              <button  ng-click="run()" class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Run" ng-disabled="currentStep != 4">
-                <span class="ng-scope">RUN</span>
+              <button  class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button" aria-label="Save" ng-disabled="currentStep !== 5" ng-click="saveSchedule()">
+                <span class="ng-scope">SAVE</span>
               </button>
             </div>
     </md-dialog-actions>

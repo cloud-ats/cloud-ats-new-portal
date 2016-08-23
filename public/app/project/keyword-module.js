@@ -280,6 +280,33 @@ define([
         requireLogin: true
       }
     })
+    .state('app.project.schedule', {
+      url: '/project/:id/keyword/schedule',
+      views: {
+        'sub-content@app.project': {
+          templateUrl: 'app/project/views/keyword/schedule-detail.tpl.html',
+          controller: 'ScheduleCtrl',
+          resolve: {
+            deps: $couchPotatoProvider.resolveDependencies([
+              'project/directives/project-nav',
+              'project/controllers/schedule-ctrl',
+              'project/services/shared-data-service',
+              'services/suite-service',
+              'services/keyword-service',
+              'services/schedule-service',
+            ])
+          }
+        },
+        'header-box@app.project': {
+          templateUrl: 'app/project/views/keyword/schedule-header-box.tpl.html',
+          controller: 'ScheduleCtrl'
+        }
+      },
+      data: {
+        title: 'Project Keyword Schedule Detail',
+        requireLogin: true
+      }
+    })
   }]);
 
   couchPotato.configureApp(module);

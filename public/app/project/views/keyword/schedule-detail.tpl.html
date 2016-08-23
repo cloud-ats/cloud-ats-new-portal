@@ -1,0 +1,56 @@
+<div aria-label="Schedule" layout="column">
+	<div class="simple-table-container md-whiteframe-4dp" perfect-scrollbar>
+		<div class="table-title">Schedule</div>
+		<div class="ms-responsive-table-wrapper">
+			<table class="simple" ms-responsive-table="">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Time</th>
+						<th>Date or Repeat</th>
+						<th>Total Suites</th>
+						<th>Browsers</th>
+						<th>Browsers Version</th>
+						<th>Selenium Version</th>
+						<th>OS</th>
+						<th>Delay(s)</th>
+						<th>Create By</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="schedule in listSchedule">
+	            		<td>
+	            			<a >{{schedule.name}}</a>
+	            		</td>
+	            		<td>{{schedule.hour}}:{{schedule.minute}}</td>
+	            		<td>
+	            			<span ng-show="schedule.day != 'null'">{{schedule.day}}</span>
+	            			<div ng-show="schedule.dateRepeat.length > 0">
+	            				<ul ng-repeat="item in schedule.dateRepeat" >
+	            					<li>{{item.date}}</li>	
+	            				</ul>
+	            			</div>
+	            		</td>
+	            		<td>{{schedule.suites.length}}</td>
+	            		<td>{{schedule.options.browser}}</td>
+	            		<td>{{schedule.options.browser_version}}</td>
+	            		<td>{{schedule.options.selenium_version}}</td>
+	            		<td>{{schedule.options.os}}</td>
+	            		<td>{{schedule.value_delay}}</td>
+	            		<td>{{schedule.creator._id}}</td>
+	            		<td>
+	            			<a href-void ng-click="deleteSchedule(schedule._id)">
+				              <md-tooltip>Delete</md-tooltip>
+				              <md-icon class="s16 md-warn-fg" md-font-icon="icon-delete" aria-hidden="true"></md-icon>
+				            </a>
+			            </td>
+	          		</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<md-table-pagination md-limit="10" md-page="query.current" md-total="{{query.total}}" md-on-paginate="onPaginate" md-page-select md-options="[10]"></md-table-pagination>
+</div>	
+
+
